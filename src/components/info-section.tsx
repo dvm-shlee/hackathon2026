@@ -1,4 +1,5 @@
 import { Code, Users, Trophy, Lightbulb } from "lucide-react";
+import Image from "next/image";
 
 const highlights = [
   {
@@ -53,10 +54,11 @@ export function InfoSection() {
             idea.
           </p>
           <div className="relative aspect-[21/9] rounded-xl overflow-hidden border border-border">
-            <img
+            <Image
               src="/bordeaux.jpeg"
               alt="Bordeaux cityscape"
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
             <div className="absolute bottom-6 left-6 text-left">

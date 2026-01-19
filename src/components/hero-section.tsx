@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin, Calendar, Clock } from "lucide-react";
+import Image from "next/image";
 
 function NeuralNetwork({ className }: { className?: string }) {
   const MAIN_COLOR = "#00f2ff";
@@ -293,7 +294,12 @@ export function HeroSection() {
       <nav className="flex items-center justify-between px-6 md:px-12 py-6">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-            <img src="/ossig_logo.svg" alt="Ossig Logo" />
+            <Image
+              src="/ossig_logo.svg"
+              alt="Ossig Logo"
+              width={40}
+              height={40}
+            />
           </div>
           <span className="font-semibold tracking-tight">Hackathon</span>
         </div>
