@@ -3,6 +3,8 @@
 import { MapPin, Calendar, Clock } from "lucide-react";
 import Image from "next/image";
 
+const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
+
 function NeuralNetwork({ className }: { className?: string }) {
   const MAIN_COLOR = "#00f2ff";
   // Define nodes in an Axial Brain layout
@@ -295,7 +297,7 @@ export function HeroSection() {
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
             <Image
-              src="/ossig_logo.svg"
+              src={`${basePath}/ossig_logo.svg`}
               alt="Ossig Logo"
               width={40}
               height={40}

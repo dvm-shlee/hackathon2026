@@ -1,6 +1,8 @@
 import { Code, Users, Trophy, Lightbulb } from "lucide-react";
 import Image from "next/image";
 
+const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
+
 const highlights = [
   {
     icon: Code,
@@ -55,7 +57,7 @@ export function InfoSection() {
           </p>
           <div className="relative aspect-[21/9] rounded-xl overflow-hidden border border-border">
             <Image
-              src="/bordeaux.jpeg"
+              src={`${basePath}/bordeaux.jpeg`}
               alt="Bordeaux cityscape"
               fill
               className="object-cover"

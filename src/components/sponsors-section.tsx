@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
+
 const sponsors = [
   {
     name: "Sponsor 1",
@@ -38,7 +40,7 @@ export function SponsorsSection() {
                 className="grayscale hover:grayscale-0 opacity-80 hover:opacity-100 transition-all duration-300"
               >
                 <Image
-                  src={sponsor.logo || "/placeholder.svg"}
+                  src={sponsor.logo || `${basePath}/placeholder.svg`}
                   alt={sponsor.name}
                   width={180}
                   height={60}
