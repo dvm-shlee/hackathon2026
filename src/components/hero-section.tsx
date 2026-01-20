@@ -270,28 +270,28 @@ function ScanRing({ scrollProgress = 0 }: { scrollProgress?: number }) {
     <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center overflow-visible">
       {/* Outer scanning rings */}
       <div
-        className="absolute inset-0 rounded-full border border-primary/20 text-primary/20"
+        className="absolute inset-0 rounded-full border border-primary/12 text-primary/12"
         style={{
           animation: "pulse 4s ease-out infinite -1s",
-          boxShadow: "0 0 4px currentColor, 0 0 7px currentColor",
+          boxShadow: "0 0 7px currentColor, 0 0 10px currentColor",
           opacity: ringOpacity,
           transition: "opacity 0.1s ease-out",
         }}
       />
       <div
-        className="absolute inset-4 rounded-full border border-primary/30 text-primary/30"
+        className="absolute inset-4 rounded-full border border-primary/18 text-primary/18"
         style={{
           animation: "pulse 4s ease-out infinite -0.5s",
-          boxShadow: "0 0 4px currentColor, 0 0 7px currentColor",
+          boxShadow: "0 0 14px currentColor, 0 0 14px currentColor",
           opacity: ringOpacity,
           transition: "opacity 0.1s ease-out",
         }}
       />
       <div
-        className="absolute inset-8 rounded-full border border-primary/40 text-primary/40"
+        className="absolute inset-9 rounded-full border border-primary/23 text-primary/23"
         style={{
           animation: "pulse 4s ease-out infinite 0s",
-          boxShadow: "0 0 5px currentColor, 0 0 9px currentColor",
+          boxShadow: "0 0 15px currentColor, 0 0 15px currentColor",
           opacity: ringOpacity,
           transition: "opacity 0.1s ease-out",
         }}
