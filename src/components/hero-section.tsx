@@ -242,30 +242,24 @@ function ScanRing() {
     <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
       {/* Outer scanning rings */}
       <div
-        // 1. Added text-primary/20 to set the currentColor
         className="absolute inset-0 rounded-full border border-primary/20 text-primary/20"
         style={{
-          animation: "pulse 4s ease-in-out infinite",
-          // 2. Added boxShadow using currentColor
+          animation: "pulse 4s ease-out infinite -1s",
           boxShadow: "0 0 4px currentColor, 0 0 7px currentColor",
         }}
       />
       <div
-        // Added text-primary/30
         className="absolute inset-4 rounded-full border border-primary/30 text-primary/30"
         style={{
-          animation: "pulse 4s ease-in-out infinite 0.5s",
-          // Added box-shadow
-          boxShadow: "0 0 4px currentColor, 0 0 7px currentColor",
+          animation: "pulse 4s ease-out infinite -0.5s",
+          boxShadow: "0 0 5px currentColor, 0 0 9px currentColor",
         }}
       />
       <div
-        // Added text-primary/40
         className="absolute inset-8 rounded-full border border-primary/40 text-primary/40"
         style={{
-          animation: "pulse 4s ease-in-out infinite 1s",
-          // Added box-shadow
-          boxShadow: "0 0 4px currentColor, 0 0 7px currentColor",
+          animation: "pulse 4s ease-out infinite 0s",
+          boxShadow: "0 0 6px currentColor, 0 0 10px currentColor",
         }}
       />
 
