@@ -2,44 +2,50 @@
 
 import { MapPin, Calendar, Clock } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
 
 const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
 
-function NeuralNetwork({ className }: { className?: string }) {
+interface NeuralNetworkProps {
+  className?: string;
+  scrollProgress?: number;
+}
+
+function NeuralNetwork({ className, scrollProgress = 0 }: NeuralNetworkProps) {
   const MAIN_COLOR = "#00f2ff";
   // Define nodes in an Axial Brain layout
   // (Left Hemi x < 100, Right Hemi x > 100, Anterior y < 100, Posterior y > 100)
-  const nodes = [
+  const baseNodes = [
     // --- Midline / Central Hubs (Corpus Callosum & Thalamus) ---
-    { id: 1, cx: 100, cy: 75 },
-    { id: 2, cx: 100, cy: 105 },
-    { id: 3, cx: 100, cy: 135 },
+    { id: 1, cx: 100, cy: 75, scatterX: -20, scatterY: 300 },
+    { id: 2, cx: 100, cy: 105, scatterX: 15, scatterY: 350 },
+    { id: 3, cx: 100, cy: 135, scatterX: -10, scatterY: 400 },
 
     // --- Left Hemisphere Perimeter (Front to Back) ---
-    { id: 4, cx: 85, cy: 35 }, // Frontal Pole L
-    { id: 5, cx: 60, cy: 55 }, // Frontal Lat L
-    { id: 6, cx: 40, cy: 90 }, // Temporal L
-    { id: 7, cx: 45, cy: 130 }, // Parietal Lat L
-    { id: 8, cx: 65, cy: 160 }, // Occipital Lat L
-    { id: 9, cx: 90, cy: 175 }, // Occipital Pole L
+    { id: 4, cx: 85, cy: 35, scatterX: -80, scatterY: 250 },
+    { id: 5, cx: 60, cy: 55, scatterX: -120, scatterY: 320 },
+    { id: 6, cx: 40, cy: 90, scatterX: -150, scatterY: 380 },
+    { id: 7, cx: 45, cy: 130, scatterX: -130, scatterY: 420 },
+    { id: 8, cx: 65, cy: 160, scatterX: -90, scatterY: 480 },
+    { id: 9, cx: 90, cy: 175, scatterX: -40, scatterY: 520 },
 
     // --- Left Hemisphere Internal ---
-    { id: 10, cx: 75, cy: 75 },
-    { id: 11, cx: 70, cy: 110 },
-    { id: 12, cx: 80, cy: 140 },
+    { id: 10, cx: 75, cy: 75, scatterX: -60, scatterY: 290 },
+    { id: 11, cx: 70, cy: 110, scatterX: -70, scatterY: 360 },
+    { id: 12, cx: 80, cy: 140, scatterX: -50, scatterY: 440 },
 
     // --- Right Hemisphere Perimeter (Front to Back) ---
-    { id: 13, cx: 115, cy: 35 }, // Frontal Pole R
-    { id: 14, cx: 140, cy: 55 }, // Frontal Lat R
-    { id: 15, cx: 160, cy: 90 }, // Temporal R
-    { id: 16, cx: 155, cy: 130 }, // Parietal Lat R
-    { id: 17, cx: 135, cy: 160 }, // Occipital Lat R
-    { id: 18, cx: 110, cy: 175 }, // Occipital Pole R
+    { id: 13, cx: 115, cy: 35, scatterX: 80, scatterY: 260 },
+    { id: 14, cx: 140, cy: 55, scatterX: 120, scatterY: 310 },
+    { id: 15, cx: 160, cy: 90, scatterX: 150, scatterY: 370 },
+    { id: 16, cx: 155, cy: 130, scatterX: 130, scatterY: 430 },
+    { id: 17, cx: 135, cy: 160, scatterX: 90, scatterY: 490 },
+    { id: 18, cx: 110, cy: 175, scatterX: 40, scatterY: 530 },
 
     // --- Right Hemisphere Internal ---
-    { id: 19, cx: 125, cy: 75 },
-    { id: 20, cx: 130, cy: 110 },
-    { id: 21, cx: 120, cy: 140 },
+    { id: 19, cx: 125, cy: 75, scatterX: 60, scatterY: 300 },
+    { id: 20, cx: 130, cy: 110, scatterX: 70, scatterY: 350 },
+    { id: 21, cx: 120, cy: 140, scatterX: 50, scatterY: 450 },
   ];
 
   // Define connections
@@ -88,6 +94,16 @@ function NeuralNetwork({ className }: { className?: string }) {
     { from: 21, to: 17 },
     { from: 21, to: 18 },
   ];
+
+  // Calculate scattered positions based on scroll progress
+  const nodes = baseNodes.map((node) => ({
+    ...node,
+    currentX: node.cx + node.scatterX * scrollProgress,
+    currentY: node.cy + node.scatterY * scrollProgress,
+  }));
+
+  // Connection opacity fades as nodes scatter
+  const connectionOpacity = Math.max(0, 1 - scrollProgress * 2);
 
   const getNode = (id: number) => nodes.find((n) => n.id === id)!;
 
@@ -165,43 +181,52 @@ function NeuralNetwork({ className }: { className?: string }) {
         return (
           <line
             key={`line-base-${i}`}
-            x1={from.cx}
-            y1={from.cy}
-            x2={to.cx}
-            y2={to.cy}
+            x1={from.currentX}
+            y1={from.currentY}
+            x2={to.currentX}
+            y2={to.currentY}
             stroke="currentColor"
             strokeWidth="1"
             className="text-primary/20"
+            style={{ 
+              opacity: connectionOpacity,
+              transition: "all 0.1s ease-out"
+            }}
           />
         );
       })}
 
       {/* Active Signal Lines (Bright Animated Pulses) */}
-
       {connections.map((conn, i) => {
         const from = getNode(conn.from);
         const to = getNode(conn.to);
         return (
           <line
             key={`line-signal-${i}`}
-            x1={from.cx}
-            y1={from.cy}
-            x2={to.cx}
-            y2={to.cy}
+            x1={from.currentX}
+            y1={from.currentY}
+            x2={to.currentX}
+            y2={to.currentY}
             stroke={`url(#signalGradient-${i})`}
             strokeWidth="2"
             className="text-primary"
-            // Ensure pulses sit on top of base lines
-            style={{ mixBlendMode: "screen" }}
+            style={{ 
+              mixBlendMode: "screen",
+              opacity: connectionOpacity,
+              transition: "all 0.1s ease-out"
+            }}
           />
         );
       })}
 
       {/* Nodes */}
       {nodes.map((node, i) => (
-        <g key={node.id}>
+        <g 
+          key={node.id}
+          style={{ transition: "all 0.1s ease-out" }}
+        >
           {/* Outer glow ring (Pulse) */}
-          <circle cx={node.cx} cy={node.cy} r="4" className="fill-brain/10">
+          <circle cx={node.currentX} cy={node.currentY} r="4" className="fill-brain/10">
             <animate
               attributeName="r"
               values="4;8;4"
@@ -219,7 +244,7 @@ function NeuralNetwork({ className }: { className?: string }) {
           </circle>
 
           {/* Inner semi-transparent circle */}
-          <circle cx={node.cx} cy={node.cy} r="3.5" className="fill-brain/60">
+          <circle cx={node.currentX} cy={node.currentY} r="3.5" className="fill-brain/60">
             <animate
               attributeName="r"
               values="3;4;3"
@@ -230,48 +255,78 @@ function NeuralNetwork({ className }: { className?: string }) {
           </circle>
 
           {/* Hard Core (Data Point) */}
-          <circle cx={node.cx} cy={node.cy} r="1.5" className="fill-brain" />
+          <circle cx={node.currentX} cy={node.currentY} r="1.5" className="fill-brain" />
         </g>
       ))}
     </svg>
   );
 }
 
-function ScanRing() {
+function ScanRing({ scrollProgress = 0 }: { scrollProgress?: number }) {
+  // Ring opacity fades as user scrolls
+  const ringOpacity = Math.max(0, 1 - scrollProgress * 1.5);
+  
   return (
-    <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+    <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center overflow-visible">
       {/* Outer scanning rings */}
       <div
         className="absolute inset-0 rounded-full border border-primary/20 text-primary/20"
         style={{
           animation: "pulse 4s ease-out infinite -1s",
           boxShadow: "0 0 4px currentColor, 0 0 7px currentColor",
+          opacity: ringOpacity,
+          transition: "opacity 0.1s ease-out",
         }}
       />
       <div
         className="absolute inset-4 rounded-full border border-primary/30 text-primary/30"
         style={{
           animation: "pulse 4s ease-out infinite -0.5s",
-          boxShadow: "0 0 5px currentColor, 0 0 9px currentColor",
+          boxShadow: "0 0 4px currentColor, 0 0 7px currentColor",
+          opacity: ringOpacity,
+          transition: "opacity 0.1s ease-out",
         }}
       />
       <div
         className="absolute inset-8 rounded-full border border-primary/40 text-primary/40"
         style={{
           animation: "pulse 4s ease-out infinite 0s",
-          boxShadow: "0 0 6px currentColor, 0 0 10px currentColor",
+          boxShadow: "0 0 5px currentColor, 0 0 9px currentColor",
+          opacity: ringOpacity,
+          transition: "opacity 0.1s ease-out",
         }}
       />
 
       {/* Neural network in center */}
-      <NeuralNetwork className="w-32 h-32 md:w-60 md:h-60 text-primary relative z-10" />
+      <NeuralNetwork 
+        className="w-32 h-32 md:w-60 md:h-60 text-primary relative z-10" 
+        scrollProgress={scrollProgress}
+      />
     </div>
   );
 }
 
 export function HeroSection() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      
+      const scrollY = window.scrollY;
+      const sectionHeight = sectionRef.current.offsetHeight;
+      // Calculate progress: 0 at top, 1 when scrolled past the section
+      const progress = Math.min(1, Math.max(0, scrollY / (sectionHeight * 0.5)));
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex flex-col">
+    <section ref={sectionRef} className="relative min-h-screen flex flex-col">
       <style jsx>{`
         @keyframes pulse {
           0%,
@@ -332,8 +387,8 @@ export function HeroSection() {
 
       {/* Hero Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-        <div className="mb-8 bg-[radial-gradient(circle_at_center,_#1f2937_0%,_#000000_70%)]">
-          <ScanRing />
+        <div className="mb-8 bg-[radial-gradient(circle_at_center,_#1f2937_0%,_#000000_70%)] overflow-visible">
+          <ScanRing scrollProgress={scrollProgress} />
         </div>
 
         <p className="text-muted-foreground text-sm md:text-base tracking-widest uppercase mb-4">
