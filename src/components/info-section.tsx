@@ -1,4 +1,4 @@
-import { Code, Users, Trophy, Lightbulb } from "lucide-react";
+import { Code, Lightbulb, MapPin, TramFront, Trophy, Users } from "lucide-react";
 import Image from "next/image";
 
 const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
@@ -44,29 +44,78 @@ export function InfoSection() {
         ))}
       </div>
 
-      {/* Location Preview */}
       <div className="border-t border-border p-8 md:p-12">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
-            Experience the heart of French wine country
-          </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
-            Bordeaux combines world-class culture, stunning architecture, and a
-            thriving tech scene. The perfect backdrop for your next breakthrough
-            idea.
-          </p>
-          <div className="relative aspect-[21/9] rounded-xl overflow-hidden border border-border">
-            <Image
-              src={`${basePath}/bordeaux.jpeg`}
-              alt="Bordeaux cityscape"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-            <div className="absolute bottom-6 left-6 text-left">
-              <p className="text-sm text-muted-foreground">Venue location</p>
-              <p className="text-xl font-semibold">
-                Campus Victoire, University of Bordeaux
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
+              Plan Your Stay Around The Venue
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed max-w-3xl mx-auto">
+              The hackathon runs from Thursday, June 11 to Saturday, June 13 at Campus Victoire,
+              University of Bordeaux. Use the city photo and satellite map below to choose nearby
+              travel and lodging.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-border">
+              <Image
+                src={`${basePath}/bordeaux.jpeg`}
+                alt="Bordeaux cityscape near the event venue"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+              <div className="absolute bottom-6 left-6 text-left">
+                <p className="text-sm text-muted-foreground">Location photo</p>
+                <p className="text-xl font-semibold">Campus Victoire Area</p>
+              </div>
+            </div>
+
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-border bg-card">
+              <iframe
+                title="Satellite map around Campus Victoire, Bordeaux"
+                src="https://www.google.com/maps?q=Campus+Victoire+University+of+Bordeaux&hl=en&t=k&z=15&output=embed"
+                className="absolute inset-0 h-full w-full"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/90 to-transparent p-6 text-left">
+                <p className="text-sm text-muted-foreground">Satellite view</p>
+                <p className="text-xl font-semibold">Transit And Lodging Context</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="rounded-lg border border-border bg-card p-4">
+              <div className="flex items-center gap-2 mb-2 text-sm font-semibold">
+                <MapPin className="w-4 h-4 text-muted-foreground" />
+                Venue
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Campus Victoire, University of Bordeaux. We recommend staying in central Bordeaux
+                with reliable tram access.
+              </p>
+            </div>
+            <div className="rounded-lg border border-border bg-card p-4">
+              <div className="flex items-center gap-2 mb-2 text-sm font-semibold">
+                <TramFront className="w-4 h-4 text-muted-foreground" />
+                Daily Timing
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Doors open as early as 07:30 on all three days. Plan your morning commute before
+                the first sessions.
+              </p>
+            </div>
+            <div className="rounded-lg border border-border bg-card p-4">
+              <div className="flex items-center gap-2 mb-2 text-sm font-semibold">
+                <Users className="w-4 h-4 text-muted-foreground" />
+                Lodging Tip
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Book through Saturday night if you want to join late sessions and closing updates
+                comfortably.
               </p>
             </div>
           </div>

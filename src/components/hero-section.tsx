@@ -364,18 +364,12 @@ export function HeroSection() {
           >
             Schedule
           </a>
-          <a
-            href="#hack-track"
-            className="hover:text-foreground transition-colors"
-          >
+          <span className="text-muted-foreground/50 cursor-default select-none">
             Hack Track
-          </a>
-          <a
-            href="#train-track"
-            className="hover:text-foreground transition-colors"
-          >
+          </span>
+          <span className="text-muted-foreground/50 cursor-default select-none">
             Train Track
-          </a>
+          </span>
           <a
             href="#workshop"
             className="hover:text-foreground transition-colors"
@@ -425,10 +419,19 @@ export function HeroSection() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-muted-foreground text-sm">More details</span>
-            <span className="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium">
-              TBA
-            </span>
+            <span className="text-muted-foreground text-sm">Latest info</span>
+            <a
+              href="#schedule"
+              className="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium hover:opacity-80 transition-opacity"
+            >
+              Official schedule published
+            </a>
+            <a
+              href="#workshop"
+              className="px-3 py-1 rounded-full border border-border text-xs font-medium hover:bg-muted transition-colors"
+            >
+              Workshop guide available
+            </a>
           </div>
         </div>
       </div>
