@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OHBM Hackathon Bordeaux 2026 Website
 
-## Getting Started
+Official landing page for OHBM Hackathon 2026 (June 11-13, Bordeaux, France).
 
-First, run the development server:
+## Overview
+
+This site includes:
+
+- Hero section with animated neural-network visual
+- Event info and venue highlight
+- 3-day interactive schedule (tabbed timeline)
+- Sponsor section + contact CTA
+- Footer links and event metadata
+
+The page is built as a static-exported Next.js app and deployed to GitHub Pages.
+
+## Tech Stack
+
+- Next.js `16.1.3` (App Router)
+- React `19.2.3`
+- TypeScript `5`
+- Tailwind CSS `4`
+- Radix UI + shadcn/ui
+- Lucide React icons
+- Vercel Analytics (`@vercel/analytics`)
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev`: start dev server
+- `npm run build`: production build + static export (`out/`)
+- `npm run start`: run production server
+- `npm run lint`: run ESLint
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app/layout.tsx`: metadata, fonts, global layout
+- `src/app/page.tsx`: section composition order
+- `src/app/globals.css`: theme tokens and base styling
+- `src/components/hero-section.tsx`: hero + brain animation
+- `src/components/info-section.tsx`: event highlights + venue visual
+- `src/components/schedule-section.tsx`: schedule UI and schedule data
+- `src/components/sponsors-section.tsx`: sponsor/CTA content
+- `src/components/scroll-fade.tsx`: section entrance/exit scroll transitions
+- `schedule.md`: planning/reference schedule document (not auto-wired to UI)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Content Update Guide
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Event title/description (SEO): update `src/app/layout.tsx`.
+2. Hero copy/date/location: update `src/components/hero-section.tsx`.
+3. Schedule data and track tags: update `src/components/schedule-section.tsx`.
+4. Sponsor entries and logo paths: update `src/components/sponsors-section.tsx` and add assets to `public/`.
+5. Footer links/text: update `src/components/footer.tsx`.
 
-## Deploy on Vercel
+Note: `schedule.md` is documentation for planning. The live schedule currently comes from the `schedule` object in `schedule-section.tsx`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment (GitHub Pages)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployment runs via `.github/workflows/nextjs.yml` on pushes to `main`.
+
+Static hosting settings are in `next.config.ts`:
+
+- `output: "export"`
+- `images.unoptimized: true`
+- `basePath` / `assetPrefix` for repository subpath deployment
+
+If the repository name changes, update `repositoryName` in `next.config.ts`.
+
+## License
+
+MIT
