@@ -19,7 +19,7 @@ const workshops: WorkshopItem[] = [
     title: "EEG101 Workshop",
     format: "2x half-day",
     description:
-      "EEG101 aims to bring together the EEG community to develop and collaborate on standardized tools and protocols for analysis and reporting, curate and harmonise large datasets, and establish centralized platforms for resource sharing and collaboration.",
+      "The INDoS and EEG101 EU COST actions are bringing together the EEG and wider neuroimaging community to develop and collaborate on standardized tools and protocols for analysis and reporting, curate and harmonise large datasets to establish centralized platforms for resource sharing and collaboration. ",
     icon: Brain,
   },
   {
