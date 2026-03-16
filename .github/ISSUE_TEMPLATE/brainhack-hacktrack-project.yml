@@ -1,7 +1,8 @@
-name: Brainhack HackTrack Project Submission
+name: HackTrack Project Submission
 description: Register a project for the 2026 OHBM HackTrack.
 title: "<My Project Name>"
 labels: ["HackTrack Project"]
+assignees: ["dvm-shlee"]
 body:
   - type: markdown
     attributes:
