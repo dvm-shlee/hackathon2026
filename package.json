@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "sync-tracks": "node scripts/sync-track-issues.js",
+    "prebuild": "npm run sync-tracks",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint"
   },

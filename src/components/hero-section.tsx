@@ -352,7 +352,7 @@ export function HeroSection() {
               height={40}
             />
           </div>
-          <span className="font-semibold tracking-tight">Hackathon</span>
+          <span className="font-semibold tracking-tight">OHBM Brainhack</span>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
           <a href="#about" className="hover:text-foreground transition-colors">
@@ -364,12 +364,12 @@ export function HeroSection() {
           >
             Schedule
           </a>
-          <span className="text-muted-foreground/50 cursor-default select-none">
+          <a href="#hacktrack" className="hover:text-foreground transition-colors">
             Hack Track
-          </span>
-          <span className="text-muted-foreground/50 cursor-default select-none">
+          </a>
+          <a href="#traintrack" className="hover:text-foreground transition-colors">
             Train Track
-          </span>
+          </a>
           <a
             href="#workshop"
             className="hover:text-foreground transition-colors"
@@ -421,16 +421,16 @@ export function HeroSection() {
           <div className="flex items-center gap-4">
             <span className="text-muted-foreground text-sm">Latest info</span>
             <a
-              href="#schedule"
+              href="#tracks"
               className="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium hover:opacity-80 transition-opacity"
             >
-              Official schedule published
+              Registration now open
             </a>
             <a
-              href="#workshop"
+              href="#hacktrack"
               className="px-3 py-1 rounded-full border border-border text-xs font-medium hover:bg-muted transition-colors"
             >
-              Workshop guide available
+              Browse HackTrack
             </a>
           </div>
         </div>

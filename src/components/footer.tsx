@@ -9,15 +9,18 @@ export function Footer() {
             </span>
           </div>
           <span className="text-sm text-muted-foreground">
-            Hackathon Bordeaux 2026
+            OHBM Brainhack Bordeaux 2026
           </span>
         </div>
 
         <div className="flex items-center gap-6 text-sm text-muted-foreground">
-          <a href="#" className="hover:text-foreground transition-colors">
-            Discord
+          <a href="#hacktrack" className="hover:text-foreground transition-colors">
+            HackTrack
           </a>
-          <a href="#" className="hover:text-foreground transition-colors">
+          <a href="#traintrack" className="hover:text-foreground transition-colors">
+            TrainTrack
+          </a>
+          <a href="mailto:ohbmopenscience@gmail.com" className="hover:text-foreground transition-colors">
             Contact
           </a>
         </div>

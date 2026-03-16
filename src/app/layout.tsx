@@ -1,16 +1,12 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"] });
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Hackathon Bordeaux 2026 | June 11-13",
+  title: "OHBM Brainhack Bordeaux 2026 | June 11-13",
   description:
-    "Join us in Bordeaux, France for an unforgettable 3-day hackathon experience. Build, innovate, and connect with developers from around the world.",
+    "Join us in Bordeaux, France for OHBM Brainhack 2026, a 3-day collaborative event for building, learning, and connecting around open neuroimaging tools.",
   icons: {
     icon: [
       {
@@ -41,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased snap-y snap-proximity scroll-smooth`}>
+      <body className="font-sans antialiased snap-y snap-proximity scroll-smooth">
         {children}
         <Analytics />
       </body>

@@ -1,0 +1,133 @@
+name: Brainhack HackTrack Project Submission
+description: Register a project for the 2026 OHBM HackTrack.
+title: "<My Project Name>"
+labels: ["HackTrack Project"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        *We are excited to welcome you to the 2026 OHBM Brainhack in Bordeaux.*
+
+        *Use this form to register a HackTrack project. The page will update automatically after the issue is opened or edited, so please keep the information current.*
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: Name of your project. Please also update the issue title to match.
+    validations:
+      required: true
+
+  - type: textarea
+    id: goals
+    attributes:
+      label: Short description and the goals for the OHBM BrainHack
+      description: Describe the project and what you want to achieve during the event.
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: Link to the Project
+      description: Main project URL, for example a GitHub repository or project website.
+    validations:
+      required: true
+
+  - type: input
+    id: website-image
+    attributes:
+      label: Image/Logo for the OHBM brainhack website
+      description: Public image URL. A square image works best.
+    validations:
+      required: false
+
+  - type: textarea
+    id: project-leads
+    attributes:
+      label: Project lead
+      description: Name, GitHub login, and Discord login for each lead. One per line.
+      placeholder: One per line
+    validations:
+      required: true
+
+  - type: dropdown
+    id: hub
+    attributes:
+      label: Main Hub
+      description: The primary hub for this project.
+      options:
+        - Bordeaux
+        - Hybrid (Asia / Pacific)
+        - Hybrid (Europe / Middle East / Africa)
+        - Hybrid (Americas)
+    validations:
+      required: true
+
+  - type: input
+    id: pitch
+    attributes:
+      label: Link to the Project pitch
+      description: Optional short project pitch video or slide deck.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: otherhub
+    attributes:
+      label: Other hubs covered by the leaders
+      description: Select additional hubs that have a project lead available.
+      options:
+        - label: Bordeaux
+        - label: Hybrid (Asia / Pacific)
+        - label: Hybrid (Europe / Middle East / Africa)
+        - label: Hybrid (Americas)
+
+  - type: textarea
+    id: skills
+    attributes:
+      label: Skills
+      description: Skills that would help contributors join the project.
+    validations:
+      required: true
+
+  - type: textarea
+    id: tutorials
+    attributes:
+      label: Recommended tutorials for new contributors
+      description: Optional onboarding resources for new contributors. One per line works well.
+    validations:
+      required: false
+
+  - type: textarea
+    id: issues
+    attributes:
+      label: Good first issues
+      description: Optional beginner-friendly tasks.
+    validations:
+      required: false
+
+  - type: textarea
+    id: twitter
+    attributes:
+      label: Twitter summary
+      description: Optional short public summary of the project.
+    validations:
+      required: false
+
+  - type: input
+    id: chatchannel
+    attributes:
+      label: Short name for the Discord chat channel (~15 chars)
+      description: Short slug for the Discord channel, for example my-brain-project.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Please read and follow the OHBM Code of Conduct
+      description: "Code of Conduct: https://ohbm.github.io/hackathon2026/"
+      options:
+        - label: I agree to follow the OHBM Code of Conduct during the hackathon
+          required: true
