@@ -9,8 +9,8 @@ This site includes:
 - Hero section with animated neural-network visual
 - Event info and venue highlight
 - 3-day interactive schedule (tabbed timeline)
-- HackTrack and TrainTrack registration pages backed by GitHub Issues
-- Recent registration preview on the home page
+- HackTrack and TrainTrack registration sections backed by GitHub Issues
+- Searchable project and tutorial listings on the home page
 - Sponsor section + contact CTA
 - Footer links and event metadata
 
