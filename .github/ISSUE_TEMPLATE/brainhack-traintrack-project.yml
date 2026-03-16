@@ -2,6 +2,7 @@ name: TrainTrack Tutorial Submission
 description: Register a tutorial or learning session for the 2026 OHBM TrainTrack.
 title: "<My Tutorial Title>"
 labels: ["TrainTrack Tutorial"]
+assignees: ["dvm-shlee"]
 body:
   - type: markdown
     attributes:
