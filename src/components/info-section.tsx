@@ -51,9 +51,10 @@ export function InfoSection() {
               Plan Your Stay Around The Venue
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-3xl mx-auto">
-              The hackathon runs from Thursday, June 11 to Saturday, June 13 at Campus Victoire,
-              University of Bordeaux. Use the city photo and satellite map below to choose nearby
-              travel and lodging.
+              OHBM Brainhack is the open collaboration event organized by OHBM OSSIG, bringing
+              together researchers, developers, and trainees to build and learn around open
+              neuroimaging tools. The 2026 edition runs from Thursday, June 11 to Saturday, June
+              13 at Campus Victoire, University of Bordeaux.
             </p>
           </div>
 

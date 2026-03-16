@@ -1,20 +1,4 @@
-import Image from "next/image";
-
-const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
-
-const sponsors = [
-  {
-    name: "Sponsor 1",
-    logo: "/openneuro.jpg",
-    tier: "platinum",
-  },
-];
-
 export function SponsorsSection() {
-  const platinumSponsors = sponsors.filter((s) => s.tier === "platinum");
-  const goldSponsors = sponsors.filter((s) => s.tier === "gold");
-  const silverSponsors = sponsors.filter((s) => s.tier === "silver");
-
   return (
     <section className="py-20 px-6 bg-muted/30">
       <div className="max-w-5xl mx-auto">
@@ -24,7 +8,7 @@ export function SponsorsSection() {
           </p>
           <h2 className="text-3xl md:text-4xl font-bold">Our Sponsors</h2>
           <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-            We are grateful to our sponsors who make Hackathon Bordeaux possible
+            We are grateful to our sponsors who make OHBM Brainhack Bordeaux possible
           </p>
         </div>
 
@@ -54,7 +38,7 @@ export function SponsorsSection() {
         {/* Become a Sponsor CTA */}
         <div className="mt-16 text-center">
           <p className="text-muted-foreground mb-4">
-            Interested in sponsoring OHBM Hackathon in Bordeaux?
+            Interested in sponsoring OHBM Brainhack in Bordeaux?
           </p>
           <a
             href="mailto:ohbmopenscience@gmail.com"

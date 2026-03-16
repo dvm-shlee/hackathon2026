@@ -1,0 +1,107 @@
+name: TrainTrack Tutorial Submission
+description: Register a tutorial or learning session for the 2026 OHBM TrainTrack.
+title: "<My Tutorial Title>"
+labels: ["TrainTrack Tutorial"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        *We are excited to welcome you to the 2026 OHBM TrainTrack in Bordeaux.*
+
+        *Use this form to register a tutorial or training session. The page will update automatically after the issue is opened or edited, so please keep the information current.*
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: Name of your tutorial. Please also update the issue title to match.
+    validations:
+      required: true
+
+  - type: input
+    id: tutor-names
+    attributes:
+      label: Name of the tutor(s)
+      description: Main tutor or tutorial leads.
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: Link to the tutorial materials
+      description: Optional materials page, repository, or slides.
+    validations:
+      required: false
+
+  - type: input
+    id: duration
+    attributes:
+      label: Expected duration
+      description: Estimated duration in minutes.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: recording-consent
+    attributes:
+      label: Recording Consent
+      description: Can the tutorial be recorded and shared with online attendees?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: skill-level
+    attributes:
+      label: Required skills
+      description: Choose the expected skill level.
+      options:
+        - Beginner-friendly
+        - Intermediate
+        - Advanced
+    validations:
+      required: true
+
+  - type: input
+    id: programming-language
+    attributes:
+      label: Programming Language
+      description: Programming language or software stack used in the tutorial.
+    validations:
+      required: true
+
+  - type: input
+    id: tags
+    attributes:
+      label: Tags
+      description: Comma-separated tags for filtering and discovery.
+    validations:
+      required: true
+
+  - type: input
+    id: website-image
+    attributes:
+      label: Image/Logo for the OHBM TrainTrack website
+      description: Optional public image URL. A square image works best.
+    validations:
+      required: false
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Short description
+      description: Short summary of the tutorial.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Please read and follow the OHBM Code of Conduct
+      description: "Code of Conduct: https://ohbm.github.io/hackathon2026/"
+      options:
+        - label: I agree to follow the OHBM Code of Conduct during the hackathon
+          required: true
