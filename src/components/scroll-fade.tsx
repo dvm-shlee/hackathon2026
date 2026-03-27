@@ -133,7 +133,7 @@ export function ScrollFade({
     <div
       ref={ref}
       className={cn(
-        "will-change-transform motion-reduce:opacity-100 motion-reduce:transform-none",
+        "overflow-x-clip will-change-transform motion-reduce:opacity-100 motion-reduce:transform-none",
         className,
       )}
       style={{

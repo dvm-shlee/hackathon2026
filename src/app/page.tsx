@@ -12,17 +12,17 @@ export default function Home() {
   const repository = getTrackRepository();
 
   return (
-    <main className="bg-background text-foreground overflow-x-hidden snap-y snap-proximity">
-      <ScrollFade className="snap-start" enterScale={0.98} exitScale={1.03} travelY={16} blurPx={6}>
+    <main className="bg-background text-foreground overflow-x-hidden">
+      <ScrollFade enterScale={0.98} exitScale={1.03} travelY={16} blurPx={6}>
         <HeroSection />
       </ScrollFade>
-      <ScrollFade className="snap-start">
+      <ScrollFade>
         <InfoSection />
       </ScrollFade>
-      <ScrollFade className="snap-start">
+      <ScrollFade>
         <ScheduleSection />
       </ScrollFade>
-      <ScrollFade className="snap-start">
+      <ScrollFade>
         <TrackBrowser
           sectionId="hacktrack"
           kind="hacktrack"
@@ -35,7 +35,7 @@ export default function Home() {
           headingLevel="h2"
         />
       </ScrollFade>
-      <ScrollFade className="snap-start">
+      <ScrollFade>
         <TrackBrowser
           sectionId="traintrack"
           kind="traintrack"
@@ -48,15 +48,11 @@ export default function Home() {
           headingLevel="h2"
         />
       </ScrollFade>
-      <ScrollFade className="snap-start">
+      <ScrollFade>
         <WorkshopsSection />
       </ScrollFade>
-      <ScrollFade className="snap-start" disableExit>
-        <>
-          <SponsorsSection />
-          <Footer />
-        </>
-      </ScrollFade>
+      <SponsorsSection />
+      <Footer />
     </main>
   );
 }

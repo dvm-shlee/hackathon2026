@@ -1,4 +1,4 @@
-import { Code, Lightbulb, MapPin, TramFront, Trophy, Users } from "lucide-react";
+import { Code, ExternalLink, Lightbulb, MapPin, TramFront, Trophy, Users } from "lucide-react";
 import Image from "next/image";
 
 const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
@@ -98,6 +98,15 @@ export function InfoSection() {
                 Campus Victoire, University of Bordeaux. We recommend staying in central Bordeaux
                 with reliable tram access.
               </p>
+              <a
+                href="https://www.u-bordeaux.fr/campus/decouvrir-les-campus/campus-victoire"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
+              >
+                Campus Victoire
+                <ExternalLink className="h-4 w-4" />
+              </a>
             </div>
             <div className="rounded-lg border border-border bg-card p-4">
               <div className="flex items-center gap-2 mb-2 text-sm font-semibold">

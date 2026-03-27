@@ -1,5 +1,6 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/globals.css";
 
@@ -37,9 +38,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased snap-y snap-proximity scroll-smooth">
+      <body className="overflow-x-hidden font-sans antialiased scroll-smooth">
         {children}
         <Analytics />
+        <Script
+          data-goatcounter="https://ossigbh2026.goatcounter.com/count"
+          src="//gc.zgo.at/count.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
