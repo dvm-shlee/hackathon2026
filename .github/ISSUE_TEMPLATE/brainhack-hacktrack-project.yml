@@ -47,8 +47,8 @@ body:
     id: project-leads
     attributes:
       label: Project lead
-      description: Name, GitHub login, and Discord login for each lead. One per line.
-      placeholder: One per line
+      description: Provide the name, GitHub login, and Discord login for each lead on a single line. If there are multiple leads, list one lead per line.
+      placeholder: <Name>, <GitHub Login>, <Discord Login>
     validations:
       required: true
 

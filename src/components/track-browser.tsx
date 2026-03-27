@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, ExternalLink, Filter, Search } from "lucide-react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -234,7 +235,7 @@ export function TrackBrowser({
                           setSelectedEntry(entry);
                           updateHash(entry);
                         }}
-                        className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-85"
+                        className="inline-flex max-w-full items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-85"
                       >
                         Details
                       </button>
@@ -256,20 +257,32 @@ export function TrackBrowser({
           }
         }}
       >
-        <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto border-border bg-card p-0">
+        <DialogContent
+          showCloseButton={false}
+          className="left-0 top-0 h-dvh max-h-dvh w-screen max-w-[100vw] translate-x-0 translate-y-0 overflow-hidden rounded-none border-0 border-border bg-card p-0 sm:left-[50%] sm:top-[50%] sm:h-auto sm:max-h-[90vh] sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-2xl sm:border lg:w-[min(66vw,72rem)] lg:max-w-[min(66vw,72rem)]"
+        >
           {selectedEntry ? (
-            <div>
-              <div className="aspect-[16/7] bg-gradient-to-br from-accent/20 via-background to-card">
+            <div className="flex min-h-full min-w-0 flex-col overflow-x-hidden">
+              <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur sm:hidden">
+                <p className="min-w-0 pr-4 text-sm font-medium text-foreground/80">{trackLabel(selectedEntry.kind)} details</p>
+                <DialogClose className="rounded-full border border-border px-3 py-1.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-background">
+                  Close
+                </DialogClose>
+              </div>
+              <div className="relative flex min-h-[13rem] items-center justify-center bg-gradient-to-br from-accent/20 via-background to-card px-6 py-6 sm:min-h-[16rem] sm:px-10 md:px-14">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
+                <DialogClose className="absolute right-4 top-4 hidden rounded-full border border-border/80 bg-card/85 px-3 py-1.5 text-sm font-medium text-foreground/80 shadow-sm backdrop-blur transition-colors hover:bg-background sm:inline-flex">
+                  Close
+                </DialogClose>
                 <img
                   src={selectedEntry.imageUrl || fallbackImage()}
                   alt={selectedEntry.title}
-                  className="h-full w-full object-cover"
+                  className="mx-auto max-h-[8rem] w-auto max-w-full object-contain sm:max-h-[10rem] md:max-h-[12rem]"
                 />
               </div>
-              <div className="p-6 md:p-8">
+              <div className="themed-scrollbar flex-1 overflow-y-auto overflow-x-hidden p-6 md:p-8">
                 <DialogHeader>
-                  <DialogTitle className="text-3xl">{selectedEntry.title}</DialogTitle>
+                  <DialogTitle className="pr-12 text-2xl sm:text-3xl">{selectedEntry.title}</DialogTitle>
                   <DialogDescription className="text-sm text-muted-foreground">
                     {trackLabel(selectedEntry.kind)} issue #{selectedEntry.issueNumber} opened on {formatTrackDate(selectedEntry.createdAt)}
                   </DialogDescription>
@@ -286,7 +299,7 @@ export function TrackBrowser({
                 {selectedEntry.summary ? (
                   <div className="mt-8">
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Summary</h3>
-                    <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-foreground/90">
+                    <p className="mt-3 whitespace-pre-line break-words text-sm leading-relaxed text-foreground/90">
                       {selectedEntry.summary}
                     </p>
                   </div>
@@ -298,7 +311,7 @@ export function TrackBrowser({
                       <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                         {selectedEntry.kind === "hacktrack" ? "Project Leads" : "Tutors"}
                       </h3>
-                      <ul className="mt-3 space-y-2 text-sm text-foreground/90">
+                      <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                         {selectedEntry.leads.map((lead) => (
                           <li key={lead}>{lead}</li>
                         ))}
@@ -308,7 +321,7 @@ export function TrackBrowser({
 
                   <div>
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Details</h3>
-                    <ul className="mt-3 space-y-2 text-sm text-foreground/90">
+                    <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                       {selectedEntry.hub ? <li>Main hub: {selectedEntry.hub}</li> : null}
                       {selectedEntry.otherHubs.length > 0 ? <li>Other hubs: {selectedEntry.otherHubs.join(", ")}</li> : null}
                       {selectedEntry.duration ? <li>Duration: {selectedEntry.duration}</li> : null}
@@ -323,7 +336,7 @@ export function TrackBrowser({
                 {selectedEntry.skills.length > 0 ? (
                   <div className="mt-8">
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Skills</h3>
-                    <ul className="mt-3 space-y-2 text-sm text-foreground/90">
+                    <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                       {selectedEntry.skills.map((skill) => (
                         <li key={skill}>{skill}</li>
                       ))}
@@ -334,7 +347,7 @@ export function TrackBrowser({
                 {selectedEntry.recommendedTutorials.length > 0 ? (
                   <div className="mt-8">
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Recommended Tutorials</h3>
-                    <ul className="mt-3 space-y-2 text-sm text-foreground/90">
+                    <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                       {selectedEntry.recommendedTutorials.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
@@ -345,7 +358,7 @@ export function TrackBrowser({
                 {selectedEntry.goodFirstIssues.length > 0 ? (
                   <div className="mt-8">
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Good First Issues</h3>
-                    <ul className="mt-3 space-y-2 text-sm text-foreground/90">
+                    <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                       {selectedEntry.goodFirstIssues.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
@@ -358,7 +371,7 @@ export function TrackBrowser({
                     href={selectedEntry.issueUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-85"
+                    className="inline-flex max-w-full items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-85"
                   >
                     Open GitHub Issue
                     <ExternalLink className="h-4 w-4" />
@@ -368,7 +381,7 @@ export function TrackBrowser({
                       href={selectedEntry.primaryLink}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
+                      className="inline-flex max-w-full items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
                     >
                       Open Main Link
                       <ArrowUpRight className="h-4 w-4" />
@@ -379,7 +392,7 @@ export function TrackBrowser({
                       href={selectedEntry.pitchLink}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
+                      className="inline-flex max-w-full items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
                     >
                       Open Pitch
                       <ArrowUpRight className="h-4 w-4" />

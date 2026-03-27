@@ -154,3 +154,27 @@
     box-shadow: 0 0 20px 5px rgba(52, 152, 219, 1); /* Brighter, wider glow */
   }
 }
+
+
+.themed-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 140, 140, 0.36) rgba(255, 255, 255, 0.03);
+}
+
+.themed-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.themed-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.themed-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 120, 0.32);
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0.18);
+}
+
+.themed-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.42);
+}

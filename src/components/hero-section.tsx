@@ -326,7 +326,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex flex-col">
+    <section ref={sectionRef} className="relative flex h-[100svh] flex-col overflow-hidden">
       <style jsx>{`
         @keyframes pulse {
           0%,
@@ -350,6 +350,7 @@ export function HeroSection() {
               alt="Ossig Logo"
               width={40}
               height={40}
+              style={{ width: "auto", height: "auto" }}
             />
           </div>
           <span className="font-semibold tracking-tight">OHBM Brainhack</span>

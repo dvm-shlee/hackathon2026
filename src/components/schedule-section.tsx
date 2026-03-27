@@ -86,9 +86,8 @@ const schedule = {
     },
     {
       time: "14:30 - 16:00",
-      columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "Working On Projects", track: "Train Track", location: "Train Room" },
+      columns: 1,
+      item: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
     },
     {
       time: "16:00 - 16:30",
@@ -104,7 +103,7 @@ const schedule = {
       time: "17:30 - 19:00",
       columns: 2,
       left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "People's Choice Session", track: "Train Track", location: "Train Room" },
+      right: { event: "People's Choice Session (30 min)", track: "Train Track", location: "Train Room" },
     },
     {
       time: "19:00 - 19:30",
@@ -127,7 +126,7 @@ const schedule = {
       time: "09:00 - 12:00",
       columns: 2,
       left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "Deeper Traintracks: Topic Deep Dives", track: "Workshop", location: "Workshop Room" },
+      right: { event: "Deeper Traintracks (45min): Toolboxes, Datasets, Workflows...", track: "Train Track", location: "Train Room" },
     },
     {
       time: "12:00 - 13:30",
@@ -135,22 +134,10 @@ const schedule = {
       item: { event: "Lunch", track: "General", location: "Cafeteria" },
     },
     {
-      time: "13:30 - 14:30",
+      time: "13:30 - 16:00",
       columns: 2,
       left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "BIDS / hMRI / EEG101 / Stats", track: "Workshop", location: "Workshop Room" },
-    },
-    {
-      time: "14:30 - 15:30",
-      columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "BIDS / hMRI / EEG101 / Stats", track: "Workshop", location: "Workshop Room" },
-    },
-    {
-      time: "15:30 - 16:00",
-      columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "BIDS / hMRI / EEG101 / Stats", track: "Workshop", location: "Workshop Room" },
+      right: { event: "NSW / BIDS / hMRI / EEG101", track: "Workshop", location: "Workshop Room" },
     },
     {
       time: "16:00 - 16:30",
@@ -166,7 +153,7 @@ const schedule = {
       time: "17:30 - 19:00",
       columns: 2,
       left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "BIDS / hMRI / EEG101 / Stats", track: "Workshop", location: "Workshop Room" },
+      right: { event: "NSW / BIDS / hMRI / EEG101", track: "Workshop", location: "Workshop Room" },
     },
     {
       time: "19:00 - 19:30",
@@ -189,7 +176,7 @@ const schedule = {
       time: "09:00 - 12:00",
       columns: 2,
       left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "EEG101 + Stats", track: "Workshop", location: "Workshop Room" },
+      right: { event: "NSW / EEG101", track: "Workshop", location: "Workshop Room" },
     },
     {
       time: "12:00 - 13:30",
@@ -203,9 +190,8 @@ const schedule = {
     },
     {
       time: "14:00 - 16:00",
-      columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "Working On Projects", track: "Workshop", location: "Workshop Room" },
+      columns: 1,
+      item: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
     },
     {
       time: "16:00 - 16:30",
@@ -214,9 +200,8 @@ const schedule = {
     },
     {
       time: "16:30 - 17:30",
-      columns: 2,
-      left: { event: "Wrapping Up Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "Wrapping Up Projects", track: "Workshop", location: "Workshop Room" },
+      columns: 1,
+      item: { event: "Wrapping Up Projects", track: "Hack Track", location: "Hack Room" },
     },
     {
       time: "17:30 - 19:00",
