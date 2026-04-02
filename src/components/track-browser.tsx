@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, ExternalLink, Filter, Search } from "lucide-react";
 import {
@@ -196,6 +197,146 @@ function filterText(entry: TrackEntry) {
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
+}
+
+function parseInlineMarkdown(content: string): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  const pattern =
+    /(\[([^\]]+)\]\((https?:\/\/[^)\s]+)\))|(\*\*([^*]+)\*\*)|(__([^_]+)__)|(\*([^*]+)\*)|(_([^_]+)_)|(`([^`]+)`)/g;
+  let lastIndex = 0;
+  let key = 0;
+
+  for (const match of content.matchAll(pattern)) {
+    const index = match.index ?? 0;
+
+    if (index > lastIndex) {
+      nodes.push(content.slice(lastIndex, index));
+    }
+
+    if (match[2] && match[3]) {
+      nodes.push(
+        <a
+          key={`md-${key}`}
+          href={match[3]}
+          target="_blank"
+          rel="noreferrer"
+          className="underline decoration-border underline-offset-4 hover:text-foreground"
+        >
+          {match[2]}
+        </a>,
+      );
+    } else if (match[5] || match[7]) {
+      nodes.push(<strong key={`md-${key}`}>{match[5] || match[7]}</strong>);
+    } else if (match[9] || match[11]) {
+      nodes.push(<em key={`md-${key}`}>{match[9] || match[11]}</em>);
+    } else if (match[13]) {
+      nodes.push(
+        <code key={`md-${key}`} className="rounded bg-background px-1.5 py-0.5 text-[0.95em]">
+          {match[13]}
+        </code>,
+      );
+    }
+
+    lastIndex = index + match[0].length;
+    key += 1;
+  }
+
+  if (lastIndex < content.length) {
+    nodes.push(content.slice(lastIndex));
+  }
+
+  return nodes;
+}
+
+function MarkdownInline({ content }: { content: string }) {
+  return <>{parseInlineMarkdown(content)}</>;
+}
+
+function MarkdownContent({ content, className }: { content: string; className?: string }) {
+  const lines = content.split("\n");
+  const blocks: Array<{ type: "paragraph" | "ul" | "ol"; lines: string[] }> = [];
+  let paragraphLines: string[] = [];
+
+  const flushParagraph = () => {
+    const text = paragraphLines.join("\n").trim();
+    if (text) {
+      blocks.push({ type: "paragraph", lines: [text] });
+    }
+    paragraphLines = [];
+  };
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushParagraph();
+      continue;
+    }
+
+    if (/^[-*+]\s+/.test(trimmed)) {
+      flushParagraph();
+      const item = trimmed.replace(/^[-*+]\s+/, "");
+      const previous = blocks.at(-1);
+      if (previous?.type === "ul") {
+        previous.lines.push(item);
+      } else {
+        blocks.push({ type: "ul", lines: [item] });
+      }
+      continue;
+    }
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+      flushParagraph();
+      const item = trimmed.replace(/^\d+\.\s+/, "");
+      const previous = blocks.at(-1);
+      if (previous?.type === "ol") {
+        previous.lines.push(item);
+      } else {
+        blocks.push({ type: "ol", lines: [item] });
+      }
+      continue;
+    }
+
+    paragraphLines.push(trimmed);
+  }
+
+  flushParagraph();
+
+  return (
+    <div className={cn("space-y-4 break-words text-sm leading-relaxed text-foreground/90", className)}>
+      {blocks.map((block, blockIndex) => {
+        if (block.type === "ul") {
+          return (
+            <ul key={`block-${blockIndex}`} className="ml-5 list-disc space-y-2">
+              {block.lines.map((item, itemIndex) => (
+                <li key={`item-${blockIndex}-${itemIndex}`}>
+                  <MarkdownInline content={item} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+
+        if (block.type === "ol") {
+          return (
+            <ol key={`block-${blockIndex}`} className="ml-5 list-decimal space-y-2">
+              {block.lines.map((item, itemIndex) => (
+                <li key={`item-${blockIndex}-${itemIndex}`}>
+                  <MarkdownInline content={item} />
+                </li>
+              ))}
+            </ol>
+          );
+        }
+
+        return (
+          <p key={`block-${blockIndex}`} className="whitespace-pre-wrap">
+            <MarkdownInline content={block.lines[0]} />
+          </p>
+        );
+      })}
+    </div>
+  );
 }
 
 export function TrackBrowser({
@@ -448,9 +589,7 @@ export function TrackBrowser({
                 {selectedEntry.summary ? (
                   <div className="mt-8">
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Summary</h3>
-                    <p className="mt-3 whitespace-pre-line break-words text-sm leading-relaxed text-foreground/90">
-                      {selectedEntry.summary}
-                    </p>
+                    <MarkdownContent content={selectedEntry.summary} className="mt-3" />
                   </div>
                 ) : null}
 
@@ -462,7 +601,9 @@ export function TrackBrowser({
                       </h3>
                       <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                         {selectedEntry.leads.map((lead) => (
-                          <li key={lead}>{lead}</li>
+                          <li key={lead}>
+                            <MarkdownInline content={lead} />
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -487,7 +628,9 @@ export function TrackBrowser({
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Skills</h3>
                     <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                       {selectedEntry.skills.map((skill) => (
-                        <li key={skill}>{skill}</li>
+                        <li key={skill}>
+                          <MarkdownInline content={skill} />
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -498,7 +641,9 @@ export function TrackBrowser({
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Recommended Tutorials</h3>
                     <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                       {selectedEntry.recommendedTutorials.map((item) => (
-                        <li key={item}>{item}</li>
+                        <li key={item}>
+                          <MarkdownInline content={item} />
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -509,7 +654,9 @@ export function TrackBrowser({
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Good First Issues</h3>
                     <ul className="mt-3 space-y-2 break-words text-sm text-foreground/90">
                       {selectedEntry.goodFirstIssues.map((item) => (
-                        <li key={item}>{item}</li>
+                        <li key={item}>
+                          <MarkdownInline content={item} />
+                        </li>
                       ))}
                     </ul>
                   </div>
