@@ -39,6 +39,12 @@ function normalizeMultiline(value) {
   return trimmed;
 }
 
+function getGoogleDriveFileId(url) {
+  const parts = url.pathname.split("/").filter(Boolean);
+  const fileIndex = parts.indexOf("d");
+  return fileIndex !== -1 ? parts[fileIndex + 1] : url.searchParams.get("id");
+}
+
 function extractImageUrl(value) {
   const normalized = normalizeMultiline(value);
   if (!normalized) {
@@ -85,12 +91,10 @@ function normalizeImageUrl(value) {
     }
 
     if (url.hostname === "drive.google.com") {
-      const parts = url.pathname.split("/").filter(Boolean);
-      const fileIndex = parts.indexOf("d");
-      const fileId = fileIndex !== -1 ? parts[fileIndex + 1] : url.searchParams.get("id");
+      const fileId = getGoogleDriveFileId(url);
 
       if (fileId) {
-        return `https://drive.google.com/uc?export=view&id=${fileId}`;
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`;
       }
     }
 
