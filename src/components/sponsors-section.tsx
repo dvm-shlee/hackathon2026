@@ -1,48 +1,64 @@
+const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
+
+const sponsors = [
+  {
+    name: "Brain Innovation",
+    logo: `${basePath}/sponsor_BrainInnovation.png`,
+    href: "https://brainvoyager.com/",
+    panelClassName: "bg-white",
+  },
+  {
+    name: "Cortical Labs",
+    logo: `${basePath}/sponsor_CorticalLabs.png`,
+    href: "https://corticallabs.com/",
+    panelClassName: "bg-white",
+  },
+];
+
 export function SponsorsSection() {
   return (
-    <section className="py-20 px-6 bg-muted/30">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
-          <p className="text-sm uppercase tracking-widest text-muted-foreground mb-3">
-            Supported By
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold">Our Sponsors</h2>
-          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+    <section className="bg-muted/30 px-6 py-20">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-16 text-center">
+          <p className="mb-3 text-sm uppercase tracking-widest text-muted-foreground">Supported By</p>
+          <h2 className="text-3xl font-bold md:text-4xl">Our Sponsors</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
             We are grateful to our sponsors who make OHBM Brainhack Bordeaux possible
           </p>
         </div>
 
-        {/* Platinum Tier */}
-        {/* <div className="mb-12">
-          <p className="text-xs uppercase tracking-widest text-center text-muted-foreground mb-6">
-            Platinum Partners
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-12">
-            {platinumSponsors.map((sponsor) => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {sponsors.map((sponsor) => (
+            <a
+              key={sponsor.name}
+              href={sponsor.href}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center"
+              aria-label={sponsor.name}
+            >
               <div
-                key={sponsor.name}
-                className="grayscale hover:grayscale-0 opacity-80 hover:opacity-100 transition-all duration-300"
+                className={`flex h-32 w-full max-w-[380px] items-center justify-center rounded-2xl border border-border/60 shadow-sm transition-opacity hover:opacity-90 ${sponsor.panelClassName}`}
               >
-                <Image
-                  src={sponsor.logo || `${basePath}/placeholder.svg`}
-                  alt={sponsor.name}
-                  width={180}
-                  height={60}
-                  className="h-14 w-auto object-contain"
-                />
+                <div className="flex h-[calc(100%-10px)] w-[calc(100%-10px)] items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    className="max-h-full max-w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            ))}
-          </div>
-        </div> */}
+            </a>
+          ))}
+        </div>
 
-        {/* Become a Sponsor CTA */}
         <div className="mt-16 text-center">
-          <p className="text-muted-foreground mb-4">
-            Interested in sponsoring OHBM Brainhack in Bordeaux?
-          </p>
+          <p className="mb-4 text-muted-foreground">Interested in sponsoring OHBM Brainhack in Bordeaux?</p>
           <a
             href="mailto:ohbmopenscience@gmail.com"
-            className="inline-flex items-center gap-2 text-sm font-medium border-b border-foreground pb-1 hover:opacity-70 transition-opacity"
+            className="inline-flex items-center gap-2 border-b border-foreground pb-1 text-sm font-medium transition-opacity hover:opacity-70"
           >
             Become a Sponsor
             <svg

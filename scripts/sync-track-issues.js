@@ -39,6 +39,73 @@ function normalizeMultiline(value) {
   return trimmed;
 }
 
+function extractImageUrl(value) {
+  const normalized = normalizeMultiline(value);
+  if (!normalized) {
+    return null;
+  }
+
+  const markdownImageMatch = normalized.match(/!\[[^\]]*]\((https?:\/\/[^)\s]+)(?:\s+"[^"]*")?\)/i);
+  if (markdownImageMatch) {
+    return markdownImageMatch[1];
+  }
+
+  const htmlImageMatch = normalized.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (htmlImageMatch) {
+    return htmlImageMatch[1];
+  }
+
+  const bracketedUrlMatch = normalized.match(/<((?:https?:\/\/)[^>]+)>/i);
+  if (bracketedUrlMatch) {
+    return bracketedUrlMatch[1];
+  }
+
+  const firstUrlMatch = normalized.match(/https?:\/\/[^\s"'<>]+/i);
+  if (firstUrlMatch) {
+    return firstUrlMatch[0];
+  }
+
+  return normalized;
+}
+
+function normalizeImageUrl(value) {
+  const extracted = extractImageUrl(value);
+  if (!extracted) {
+    return null;
+  }
+
+  try {
+    const url = new URL(extracted);
+
+    if (url.hostname === "github.com") {
+      const parts = url.pathname.split("/").filter(Boolean);
+      if (parts.length >= 5 && parts[2] === "blob") {
+        return `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join("/")}`;
+      }
+    }
+
+    if (url.hostname === "drive.google.com") {
+      const parts = url.pathname.split("/").filter(Boolean);
+      const fileIndex = parts.indexOf("d");
+      const fileId = fileIndex !== -1 ? parts[fileIndex + 1] : url.searchParams.get("id");
+
+      if (fileId) {
+        return `https://drive.google.com/uc?export=view&id=${fileId}`;
+      }
+    }
+
+    if (url.hostname === "dropbox.com" || url.hostname === "www.dropbox.com") {
+      url.searchParams.delete("dl");
+      url.searchParams.set("raw", "1");
+      return url.toString();
+    }
+
+    return url.toString();
+  } catch {
+    return extracted;
+  }
+}
+
 function splitLines(value) {
   const normalized = normalizeMultiline(value);
   if (!normalized) {
@@ -167,7 +234,7 @@ function buildTrackEntry(kind, issue, issueInfo) {
     updatedAt: issue.updated_at,
     labels,
     categories: collectCategories(issue, issueInfo, kind),
-    imageUrl: normalizeMultiline(issueInfo["website-image"]),
+    imageUrl: normalizeImageUrl(issueInfo["website-image"]),
     summary: normalizeMultiline(summary),
     teaser: summarize(summary),
     primaryLink: normalizeMultiline(issueInfo.link),
