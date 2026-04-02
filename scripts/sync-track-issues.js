@@ -39,10 +39,38 @@ function normalizeMultiline(value) {
   return trimmed;
 }
 
+function isImageLikeUrl(url) {
+  return (
+    /\.(png|jpe?g|gif|webp|svg)(?:$|[?#])/i.test(url) ||
+    url.includes("/user-attachments/assets/") ||
+    url.includes("drive.google.com/")
+  );
+}
+
 function getGoogleDriveFileId(url) {
   const parts = url.pathname.split("/").filter(Boolean);
   const fileIndex = parts.indexOf("d");
   return fileIndex !== -1 ? parts[fileIndex + 1] : url.searchParams.get("id");
+}
+
+function extractEmbeddedImageUrl(value) {
+  const normalized = normalizeMultiline(value);
+  if (!normalized) {
+    return null;
+  }
+
+  const htmlImageMatch = normalized.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (htmlImageMatch) {
+    return htmlImageMatch[1];
+  }
+
+  const markdownImageMatch = normalized.match(/!\[[^\]]*]\((https?:\/\/[^)\s]+)(?:\s+"[^"]*")?\)/i);
+  if (markdownImageMatch) {
+    return markdownImageMatch[1];
+  }
+
+  const urls = normalized.match(/https?:\/\/[^\s"'<>]+/gi) || [];
+  return urls.find((url) => isImageLikeUrl(url)) || null;
 }
 
 function extractImageUrl(value) {
@@ -72,6 +100,29 @@ function extractImageUrl(value) {
   }
 
   return normalized;
+}
+
+function stripEmbeddedImages(value) {
+  const normalized = normalizeMultiline(value);
+  if (!normalized) {
+    return null;
+  }
+
+  const withoutImageTags = normalized
+    .replace(/<img[^>]*>/gi, " ")
+    .replace(/!\[[^\]]*]\((https?:\/\/[^)\s]+)(?:\s+"[^"]*")?\)/gi, " ");
+
+  const withoutImageUrls = withoutImageTags.replace(/https?:\/\/[^\s"'<>]+/gi, (url) =>
+    isImageLikeUrl(url) ? " " : url,
+  );
+
+  const cleaned = withoutImageUrls
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  return cleaned || null;
 }
 
 function normalizeImageUrl(value) {
@@ -225,7 +276,8 @@ function collectCategories(issue, issueInfo, kind) {
 function buildTrackEntry(kind, issue, issueInfo) {
   const labels = issue.labels.map((label) => label.name);
   const title = normalizeMultiline(issueInfo.title) || issue.title;
-  const summary = kind === "hacktrack" ? issueInfo.goals : issueInfo.summary;
+  const rawSummary = kind === "hacktrack" ? issueInfo.goals : issueInfo.summary;
+  const summary = stripEmbeddedImages(rawSummary);
 
   return {
     id: `${kind}-${issue.number}`,
@@ -238,8 +290,8 @@ function buildTrackEntry(kind, issue, issueInfo) {
     updatedAt: issue.updated_at,
     labels,
     categories: collectCategories(issue, issueInfo, kind),
-    imageUrl: normalizeImageUrl(issueInfo["website-image"]),
-    summary: normalizeMultiline(summary),
+    imageUrl: normalizeImageUrl(issueInfo["website-image"]) || normalizeImageUrl(extractEmbeddedImageUrl(rawSummary)),
+    summary,
     teaser: summarize(summary),
     primaryLink: normalizeMultiline(issueInfo.link),
     leads: kind === "hacktrack" ? splitLines(issueInfo["project-leads"]) : splitInlineList(issueInfo["tutor-names"]),
