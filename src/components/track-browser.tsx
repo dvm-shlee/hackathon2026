@@ -35,6 +35,126 @@ function fallbackImage() {
   return `${basePath}/ossig_logo.svg`;
 }
 
+function extractImageUrl(value: string | null) {
+  if (!value) {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const markdownImageMatch = trimmed.match(/!\[[^\]]*]\((https?:\/\/[^)\s]+)(?:\s+"[^"]*")?\)/i);
+  if (markdownImageMatch) {
+    return markdownImageMatch[1];
+  }
+
+  const htmlImageMatch = trimmed.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (htmlImageMatch) {
+    return htmlImageMatch[1];
+  }
+
+  const bracketedUrlMatch = trimmed.match(/<((?:https?:\/\/)[^>]+)>/i);
+  if (bracketedUrlMatch) {
+    return bracketedUrlMatch[1];
+  }
+
+  const firstUrlMatch = trimmed.match(/https?:\/\/[^\s"'<>]+/i);
+  if (firstUrlMatch) {
+    return firstUrlMatch[0];
+  }
+
+  return trimmed;
+}
+
+function normalizeImageUrl(value: string | null) {
+  const extracted = extractImageUrl(value);
+  if (!extracted) {
+    return null;
+  }
+
+  try {
+    const url = new URL(extracted);
+
+    if (url.hostname === "github.com") {
+      const parts = url.pathname.split("/").filter(Boolean);
+      if (parts.length >= 5 && parts[2] === "blob") {
+        return `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join("/")}`;
+      }
+    }
+
+    if (url.hostname === "drive.google.com") {
+      const parts = url.pathname.split("/").filter(Boolean);
+      const fileIndex = parts.indexOf("d");
+      const fileId = fileIndex !== -1 ? parts[fileIndex + 1] : url.searchParams.get("id");
+
+      if (fileId) {
+        return `https://drive.google.com/uc?export=view&id=${fileId}`;
+      }
+    }
+
+    if (url.hostname === "dropbox.com" || url.hostname === "www.dropbox.com") {
+      url.searchParams.delete("dl");
+      url.searchParams.set("raw", "1");
+      return url.toString();
+    }
+
+    return url.toString();
+  } catch {
+    return extracted;
+  }
+}
+
+function buildImageSources(value: string | null) {
+  const sources: string[] = [];
+  const seen = new Set<string>();
+
+  const pushSource = (source: string | null) => {
+    if (!source || seen.has(source)) {
+      return;
+    }
+
+    seen.add(source);
+    sources.push(source);
+  };
+
+  pushSource(normalizeImageUrl(value));
+  pushSource(extractImageUrl(value));
+  pushSource(fallbackImage());
+
+  return sources;
+}
+
+function TrackImage({
+  imageUrl,
+  alt,
+  className,
+  loading = "eager",
+}: {
+  imageUrl: string | null;
+  alt: string;
+  className: string;
+  loading?: "eager" | "lazy";
+}) {
+  const sources = useMemo(() => buildImageSources(imageUrl), [imageUrl]);
+  const [sourceIndex, setSourceIndex] = useState(0);
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={sources[sourceIndex] ?? fallbackImage()}
+      alt={alt}
+      className={className}
+      loading={loading}
+      referrerPolicy="no-referrer"
+      onError={() => {
+        setSourceIndex((current) => Math.min(current + 1, sources.length - 1));
+      }}
+    />
+  );
+}
+
 function filterText(entry: TrackEntry) {
   return [
     entry.title,
@@ -209,9 +329,9 @@ export function TrackBrowser({
                   className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-border bg-card"
                 >
                   <div className="flex h-40 items-center justify-center bg-gradient-to-br from-accent/12 via-card to-card p-4">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={entry.imageUrl || fallbackImage()}
+                    <TrackImage
+                      key={`${entry.id}-${entry.imageUrl ?? "fallback"}`}
+                      imageUrl={entry.imageUrl}
                       alt={entry.title}
                       className="max-h-full w-full object-contain"
                       loading="lazy"
@@ -259,10 +379,10 @@ export function TrackBrowser({
       >
         <DialogContent
           showCloseButton={false}
-          className="left-0 top-0 h-dvh max-h-dvh w-screen max-w-[100vw] translate-x-0 translate-y-0 overflow-hidden rounded-none border-0 border-border bg-card p-0 sm:left-[50%] sm:top-[50%] sm:h-auto sm:max-h-[90vh] sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-2xl sm:border lg:w-[min(66vw,72rem)] lg:max-w-[min(66vw,72rem)]"
+          className="left-0 top-0 h-dvh max-h-dvh w-screen max-w-[100vw] translate-x-0 translate-y-0 overflow-hidden rounded-none border-0 border-border bg-card p-0 sm:left-[50%] sm:top-[50%] sm:h-[min(90vh,calc(100dvh-2rem))] sm:max-h-[90vh] sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-2xl sm:border lg:w-[min(66vw,72rem)] lg:max-w-[min(66vw,72rem)]"
         >
           {selectedEntry ? (
-            <div className="flex min-h-full min-w-0 flex-col overflow-x-hidden">
+            <div className="flex h-full min-h-0 min-w-0 flex-col overflow-x-hidden">
               <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur sm:hidden">
                 <p className="min-w-0 pr-4 text-sm font-medium text-foreground/80">{trackLabel(selectedEntry.kind)} details</p>
                 <DialogClose className="rounded-full border border-border px-3 py-1.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-background">
@@ -270,17 +390,17 @@ export function TrackBrowser({
                 </DialogClose>
               </div>
               <div className="relative flex min-h-[13rem] items-center justify-center bg-gradient-to-br from-accent/20 via-background to-card px-6 py-6 sm:min-h-[16rem] sm:px-10 md:px-14">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <DialogClose className="absolute right-4 top-4 hidden rounded-full border border-border/80 bg-card/85 px-3 py-1.5 text-sm font-medium text-foreground/80 shadow-sm backdrop-blur transition-colors hover:bg-background sm:inline-flex">
                   Close
                 </DialogClose>
-                <img
-                  src={selectedEntry.imageUrl || fallbackImage()}
+                <TrackImage
+                  key={`${selectedEntry.id}-${selectedEntry.imageUrl ?? "fallback"}`}
+                  imageUrl={selectedEntry.imageUrl}
                   alt={selectedEntry.title}
                   className="mx-auto max-h-[8rem] w-auto max-w-full object-contain sm:max-h-[10rem] md:max-h-[12rem]"
                 />
               </div>
-              <div className="themed-scrollbar flex-1 overflow-y-auto overflow-x-hidden p-6 md:p-8">
+              <div className="themed-scrollbar min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-6 md:p-8">
                 <DialogHeader>
                   <DialogTitle className="pr-12 text-2xl sm:text-3xl">{selectedEntry.title}</DialogTitle>
                   <DialogDescription className="text-sm text-muted-foreground">
