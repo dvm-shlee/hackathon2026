@@ -35,6 +35,21 @@ function fallbackImage() {
   return `${basePath}/ossig_logo.svg`;
 }
 
+function getGoogleDriveFileId(url: URL) {
+  const parts = url.pathname.split("/").filter(Boolean);
+  const fileIndex = parts.indexOf("d");
+  return fileIndex !== -1 ? parts[fileIndex + 1] : url.searchParams.get("id");
+}
+
+function getGoogleDriveImageSources(fileId: string) {
+  return [
+    `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`,
+    `https://drive.google.com/uc?export=view&id=${fileId}`,
+    `https://drive.google.com/uc?id=${fileId}`,
+    `https://drive.google.com/uc?export=download&id=${fileId}`,
+  ];
+}
+
 function extractImageUrl(value: string | null) {
   if (!value) {
     return null;
@@ -85,12 +100,10 @@ function normalizeImageUrl(value: string | null) {
     }
 
     if (url.hostname === "drive.google.com") {
-      const parts = url.pathname.split("/").filter(Boolean);
-      const fileIndex = parts.indexOf("d");
-      const fileId = fileIndex !== -1 ? parts[fileIndex + 1] : url.searchParams.get("id");
+      const fileId = getGoogleDriveFileId(url);
 
       if (fileId) {
-        return `https://drive.google.com/uc?export=view&id=${fileId}`;
+        return getGoogleDriveImageSources(fileId)[0];
       }
     }
 
@@ -119,8 +132,24 @@ function buildImageSources(value: string | null) {
     sources.push(source);
   };
 
+  const extracted = extractImageUrl(value);
   pushSource(normalizeImageUrl(value));
-  pushSource(extractImageUrl(value));
+
+  if (extracted) {
+    try {
+      const url = new URL(extracted);
+      if (url.hostname === "drive.google.com") {
+        const fileId = getGoogleDriveFileId(url);
+        if (fileId) {
+          getGoogleDriveImageSources(fileId).forEach((source) => pushSource(source));
+        }
+      }
+    } catch {
+      // Ignore invalid URLs and fall back to the raw source.
+    }
+  }
+
+  pushSource(extracted);
   pushSource(fallbackImage());
 
   return sources;
