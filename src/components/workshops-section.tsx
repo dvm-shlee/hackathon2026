@@ -33,7 +33,7 @@ const workshops: WorkshopItem[] = [
     description:
       "The BIDS workshop will educate and discuss standards for prescribing a formal way to organize various imaging data types and metadata. It simplifies communication and collaboration between users and enables easier data validation and software development.",
     icon: BookOpen,
-    links: [{ label: "BIDS", href: "https://bids.neuroimaging.io" }],
+    links: [{ label: "Website", href: "https://bids.neuroimaging.io" }],
   },
   {
     title: "hMRI Workshop",
@@ -41,7 +41,7 @@ const workshops: WorkshopItem[] = [
     description:
       "The hMRI workshop will introduce quantitative MRI methods and their analysis via the hMRI-toolbox embedded in SPM. It allows the estimation of high-quality multi-parameter qMRI maps (R1, R2*, PD and MT) followed by spatial registration for statistical analysis.",
     icon: Microscope,
-    links: [{ label: "hMRI Toolbox", href: "https://hmri-group.github.io/hMRI-toolbox/" }],
+    links: [{ label: "Workshop Site", href: "https://hmri-group.github.io/hMRI-Bordeaux-meeting/" }],
   },
 ];
 
