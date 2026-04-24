@@ -425,7 +425,7 @@ export function HeroSection() {
               href="#hacktrack"
               className="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium hover:opacity-80 transition-opacity"
             >
-              Registration now open
+              Submit your project
             </a>
             <a
               href="#hacktrack"
