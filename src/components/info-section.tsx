@@ -101,7 +101,7 @@ export function InfoSection() {
               <a
                 href="https://www.u-bordeaux.fr/campus/decouvrir-les-campus/campus-victoire"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
               >
                 Campus Victoire
