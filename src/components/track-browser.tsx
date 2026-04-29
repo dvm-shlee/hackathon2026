@@ -413,7 +413,7 @@ export function TrackBrowser({
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-opacity hover:opacity-85"
               >
-                Register via GitHub Issue
+                Submit via GitHub Issue
                 <ArrowUpRight className="h-4 w-4" />
               </a>
               <a
@@ -479,7 +479,7 @@ export function TrackBrowser({
 
           <div className="mb-6">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
-              {kind === "hacktrack" ? "Current registered projects" : "Current registered tutorials"}
+              {kind === "hacktrack" ? "Current submitted projects" : "Current submitted tutorials"}
             </p>
           </div>
 
@@ -487,7 +487,7 @@ export function TrackBrowser({
             <div className="rounded-3xl border border-dashed border-border bg-card/60 px-6 py-14 text-center">
               <p className="text-lg font-medium">No entries match the current filter.</p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Try another search term, clear the active tag, or use the register button above to add a new entry.
+                Try another search term, clear the active tag, or use the submit button above to add a new entry.
               </p>
             </div>
           ) : (
