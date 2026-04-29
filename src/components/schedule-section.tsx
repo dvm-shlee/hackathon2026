@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, Clock } from "lucide-react";
+import { CalendarDays, Clock, ExternalLink } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type ScheduleTrack = "General" | "Hack Track" | "Train Track" | "Workshop" | "Break" | "Un-Conference";
@@ -36,6 +36,7 @@ type TimeRange = {
 const SLOT_MINUTES = 30;
 const SLOT_HEIGHT_PX = 42;
 const TIMELINE_BOTTOM_PADDING_PX = 18;
+const registrationUrl = "https://humanbrainmapping.org/26Brainhack";
 
 const parseClock = (value: string) => {
   const [hour, minute] = value.trim().split(":").map(Number);
@@ -316,14 +317,27 @@ export function ScheduleSection() {
         </div>
 
         <div className="mb-10 rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center gap-2 text-sm font-semibold mb-2">
-            <CalendarDays className="w-4 h-4 text-muted-foreground" />
-            Schedule status
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold mb-2">
+                <CalendarDays className="w-4 h-4 text-muted-foreground" />
+                Schedule status
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Version v1.0 published. Daily activities begin at 07:30 and the building closes at
+                20:00.
+              </p>
+            </div>
+            <a
+              href={registrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
+            >
+              Register for OHBM Brainhack
+              <ExternalLink className="h-4 w-4" />
+            </a>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Version v1.0 published. Daily activities begin at 07:30 and the building closes at
-            20:00.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
