@@ -378,35 +378,36 @@ export function HeroSection() {
           >
             Workshop
           </a>
-          <a
-            href={registrationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-primary-foreground font-medium transition-opacity hover:opacity-85"
-          >
-            Register
-            <ExternalLink className="h-3.5 w-3.5" />
-          </a>
         </div>
       </nav>
 
       {/* Hero Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-        <div className="mb-8 bg-[radial-gradient(circle_at_center,_#1f2937_0%,_#000000_70%)] overflow-visible">
+        <div className="mb-5 bg-[radial-gradient(circle_at_center,_#1f2937_0%,_#000000_70%)] overflow-visible md:mb-6">
           <ScanRing scrollProgress={scrollProgress} />
         </div>
 
-        <p className="text-muted-foreground text-sm md:text-base tracking-widest uppercase mb-4">
+        <a
+          href={registrationUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-[0_0_28px_rgba(255,255,255,0.18)] transition-opacity hover:opacity-85 md:mb-7"
+        >
+          Registration
+          <ExternalLink className="h-4 w-4" />
+        </a>
+
+        <p className="text-muted-foreground text-xs md:text-sm tracking-widest uppercase mb-3">
           3 days of neuroimaging innovation
         </p>
 
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance max-w-4xl leading-tight">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance max-w-4xl leading-tight">
           Decode the brain in
           <br />
           <span className="text-muted-foreground">Bordeaux, France</span>
         </h1>
 
-        <p className="mt-6 text-muted-foreground text-lg max-w-2xl text-balance">
+        <p className="mt-5 text-muted-foreground text-base md:text-lg max-w-2xl text-balance">
           Join researchers, developers, and neuroscientists to build the next
           generation of MRI, EEG, and brain imaging tools.
         </p>
@@ -431,15 +432,6 @@ export function HeroSection() {
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <span className="text-muted-foreground text-sm">Latest info</span>
-            <a
-              href={registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-85"
-            >
-              Brainhack Registration
-              <ExternalLink className="h-3.5 w-3.5" />
-            </a>
             <a
               href="#hacktrack"
               className="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium hover:opacity-80 transition-opacity"
