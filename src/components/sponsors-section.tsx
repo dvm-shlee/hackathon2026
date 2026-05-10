@@ -13,6 +13,12 @@ const sponsors = [
     href: "https://corticallabs.com/",
     panelClassName: "bg-white",
   },
+  {
+    name: "Center for Open Neuroscience",
+    logo: `${basePath}/sponsor_CON.png`,
+    href: "https://centerforopenneuroscience.org/",
+    panelClassName: "bg-white",
+  },
 ];
 
 export function SponsorsSection() {
@@ -27,7 +33,7 @@ export function SponsorsSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {sponsors.map((sponsor) => (
             <a
               key={sponsor.name}

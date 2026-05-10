@@ -321,11 +321,10 @@ export function ScheduleSection() {
             <div>
               <div className="flex items-center gap-2 text-sm font-semibold mb-2">
                 <CalendarDays className="w-4 h-4 text-muted-foreground" />
-                Schedule status
+                Registration is open
               </div>
               <p className="text-sm text-muted-foreground">
-                Version v1.0 published. Daily activities begin at 07:30 and the building closes at
-                20:00.
+                Registration for OHBM Brainhack Bordeaux 2026 is now open.
               </p>
             </div>
             <a
