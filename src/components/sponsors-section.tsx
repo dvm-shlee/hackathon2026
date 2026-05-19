@@ -21,10 +21,40 @@ const sponsors = [
   },
 ];
 
+const partners = [
+  {
+    name: "EEG101",
+    logo: `${basePath}/partnership_EEG101.png`,
+    panelClassName: "bg-white",
+  },
+];
+
 export function SponsorsSection() {
   return (
     <section className="bg-muted/30 px-6 py-20">
       <div className="mx-auto max-w-5xl">
+        <div className="mb-16 text-center">
+          <p className="mb-6 text-sm uppercase tracking-widest text-muted-foreground">In Partnership with</p>
+          <div className="flex justify-center">
+            {partners.map((partner) => (
+              <div
+                key={partner.name}
+                className={`flex h-32 w-full max-w-[380px] items-center justify-center rounded-2xl border border-border/60 shadow-sm ${partner.panelClassName}`}
+              >
+                <div className="flex h-[calc(100%-10px)] w-[calc(100%-10px)] items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-h-full max-w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="mb-16 text-center">
           <p className="mb-3 text-sm uppercase tracking-widest text-muted-foreground">Supported By</p>
           <h2 className="text-3xl font-bold md:text-4xl">Our Sponsors</h2>
