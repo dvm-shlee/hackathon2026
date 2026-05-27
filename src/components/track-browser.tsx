@@ -503,7 +503,7 @@ export function TrackBrowser({
                       key={`${entry.id}-${entry.imageUrl ?? "fallback"}`}
                       imageUrl={entry.imageUrl}
                       alt={entry.title}
-                      className="max-h-full w-full object-contain"
+                      className="max-h-full w-full rounded-xl bg-white p-3 object-contain"
                       loading="lazy"
                     />
                   </div>
@@ -567,7 +567,7 @@ export function TrackBrowser({
                   key={`${selectedEntry.id}-${selectedEntry.imageUrl ?? "fallback"}`}
                   imageUrl={selectedEntry.imageUrl}
                   alt={selectedEntry.title}
-                  className="mx-auto max-h-[8rem] w-auto max-w-full object-contain sm:max-h-[10rem] md:max-h-[12rem]"
+                  className="mx-auto max-h-[8rem] w-auto max-w-full rounded-2xl bg-white p-4 object-contain shadow-sm sm:max-h-[10rem] md:max-h-[12rem]"
                 />
               </div>
               <div className="themed-scrollbar min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-6 md:p-8">
