@@ -27,7 +27,31 @@ const partners = [
     logo: `${basePath}/partnership_EEG101.png`,
     panelClassName: "bg-white",
   },
+  {
+    name: "King Abdullah University of Science and Technology",
+    logo: `${basePath}/partnership_KAU.jpg`,
+    panelClassName: "bg-white",
+  },
+  {
+    name: "American Statistical Association's Section on Statistics in Imaging",
+    logo: `${basePath}/partnership_ASA.jpg`,
+    panelClassName: "bg-white",
+  },
+  {
+    name: "Mental Health Research Centre of the Hong Kong Polytechnic University",
+    logo: `${basePath}/partnership_MHRC.png`,
+    panelClassName: "bg-white",
+  },
+  {
+    name: "BIDS",
+    logo: `${basePath}/partnership_BIDS.svg`,
+    panelClassName: "bg-white",
+  },
 ];
+
+const partnerGridClassName = "flex flex-wrap justify-center gap-6";
+const partnerItemClassName = "w-full max-w-[280px]";
+const partnerLogoPanelClassName = "h-32 w-full";
 
 export function SponsorsSection() {
   return (
@@ -35,21 +59,26 @@ export function SponsorsSection() {
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 text-center">
           <p className="mb-6 text-sm uppercase tracking-widest text-muted-foreground">In Partnership with</p>
-          <div className="flex justify-center">
+          <div className={partnerGridClassName}>
             {partners.map((partner) => (
               <div
                 key={partner.name}
-                className={`flex h-32 w-full max-w-[380px] items-center justify-center rounded-2xl border border-border/60 shadow-sm ${partner.panelClassName}`}
+                className={`flex ${partnerItemClassName} flex-col items-center gap-3`}
               >
-                <div className="flex h-[calc(100%-10px)] w-[calc(100%-10px)] items-center justify-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="max-h-full max-w-full object-contain"
-                    loading="lazy"
-                  />
+                <div
+                  className={`flex ${partnerLogoPanelClassName} items-center justify-center rounded-2xl border border-border/60 shadow-sm ${partner.panelClassName}`}
+                >
+                  <div className="flex h-[calc(100%-10px)] w-[calc(100%-10px)] items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className="max-h-full max-w-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
+                <p className="text-center text-sm font-medium leading-snug text-foreground">{partner.name}</p>
               </div>
             ))}
           </div>
