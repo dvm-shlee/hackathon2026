@@ -26,6 +26,7 @@ const workshops: WorkshopItem[] = [
     description:
       "The INDoS and EEG101 EU COST actions are bringing together the EEG and wider neuroimaging community to develop and collaborate on standardized tools and protocols for analysis and reporting, curate and harmonise large datasets to establish centralized platforms for resource sharing and collaboration. ",
     icon: Brain,
+    links: [{ label: "RS-BIDSify repo", href: "https://github.com/ubdbra001/rs-bidsify"}]
   },
   {
     title: "BIDS Workshop",
