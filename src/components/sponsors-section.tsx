@@ -47,6 +47,11 @@ const partners = [
     logo: `${basePath}/partnership_BIDS.svg`,
     panelClassName: "bg-white",
   },
+  {
+    name: "ORIGAMI Lab",
+    logo: `${basePath}/partnership_origamilab.png`,
+    panelClassName: "bg-white",
+  }
 ];
 
 const partnerGridClassName = "flex flex-wrap justify-center gap-6";
