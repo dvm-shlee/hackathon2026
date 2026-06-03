@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, Clock, ExternalLink } from "lucide-react";
+import { CalendarDays, Clock } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type ScheduleTrack = "General" | "Hack Track" | "Train Track" | "Workshop" | "Break" | "Un-Conference";
@@ -36,8 +36,6 @@ type TimeRange = {
 const SLOT_MINUTES = 30;
 const SLOT_HEIGHT_PX = 42;
 const TIMELINE_BOTTOM_PADDING_PX = 18;
-const registrationUrl = "https://humanbrainmapping.org/26Brainhack";
-
 const parseClock = (value: string) => {
   const [hour, minute] = value.trim().split(":").map(Number);
   return hour * 60 + minute;
@@ -318,24 +316,25 @@ export function ScheduleSection() {
 
         <div className="mb-10 rounded-2xl border border-border bg-card p-6">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-            <div>
+            <div className="max-w-2xl">
               <div className="flex items-center gap-2 text-sm font-semibold mb-2">
                 <CalendarDays className="w-4 h-4 text-muted-foreground" />
-                Registration is open
+                Registration closed on June 1
               </div>
               <p className="text-sm text-muted-foreground">
-                Registration for OHBM Brainhack Bordeaux 2026 is now open.
+                Due to issues with the current registration system, registration closed earlier than
+                expected. For people who contacted us by email, the Brainhack team is working
+                internally on a solution for additional spots and will follow up individually by
+                email. Thank you for your patience.
               </p>
             </div>
-            <a
-              href={registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-background"
+            <button
+              type="button"
+              disabled
+              className="inline-flex shrink-0 cursor-not-allowed items-center justify-center rounded-lg border border-border bg-muted px-4 py-2 text-sm font-medium text-muted-foreground opacity-80"
             >
-              Register for OHBM Brainhack
-              <ExternalLink className="h-4 w-4" />
-            </a>
+              Registration Closed
+            </button>
           </div>
         </div>
 
