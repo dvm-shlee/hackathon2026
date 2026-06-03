@@ -1,12 +1,10 @@
 "use client";
 
-import { MapPin, Calendar, Clock, ExternalLink } from "lucide-react";
+import { MapPin, Calendar, Clock } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 
 const basePath = process.env.NODE_ENV === "production" ? "/hackathon2026" : "";
-const registrationUrl = "https://humanbrainmapping.org/26Brainhack";
-
 interface NeuralNetworkProps {
   className?: string;
   scrollProgress?: number;
@@ -388,13 +386,10 @@ export function HeroSection() {
         </div>
 
         <a
-          href={registrationUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-[0_0_28px_rgba(255,255,255,0.18)] transition-opacity hover:opacity-85 md:mb-7"
+          href="#schedule"
+          className="mb-6 inline-flex items-center rounded-full bg-muted px-7 py-3 text-sm font-semibold text-muted-foreground shadow-[0_0_28px_rgba(255,255,255,0.12)] transition-opacity hover:opacity-85 md:mb-7"
         >
-          Registration
-          <ExternalLink className="h-4 w-4" />
+          Registration Closed (Click for Details)
         </a>
 
         <p className="text-muted-foreground text-xs md:text-sm tracking-widest uppercase mb-3">
