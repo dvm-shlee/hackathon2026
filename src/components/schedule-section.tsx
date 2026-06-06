@@ -322,19 +322,10 @@ export function ScheduleSection() {
                 Registration closed on June 1
               </div>
               <p className="text-sm text-muted-foreground">
-                Online registration is now closed. Walk-in registration will be available on the
-                first day of the BrainHack, though we cannot guarantee a spot for everyone who shows
-                up. If you would like to join the waitlist, please email us at{' '}
-                <a
-                  href="mailto:ohbmopenscience@gmail.com"
-                  className="font-medium text-foreground underline underline-offset-4"
-                >
-                  ohbmopenscience@gmail.com
-                </a>
-                {'. '}Note that spots are limited by building capacity, and walk-in attendees would
-                still need to register and pay through the official portal on the day. Please also be
-                aware that we are unable to guarantee lunch for on-site registrants, as our catering
-                order has already been placed.
+                Registration for BrainHack is now closed, and we have now reached our maximum on-site capacity.
+                At this point, we are unable to accept any additional registrations, waitlist requests,
+                or walk-in attendees. This capacity limit is based on building restrictions and event logistics.
+                Thank you for your interest in BrainHack. We appreciate your understanding and hope to see you at a future event.
               </p>
             </div>
             <button
