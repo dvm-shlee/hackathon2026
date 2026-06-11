@@ -3,7 +3,13 @@
 import { CalendarDays, Clock } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type ScheduleTrack = "General" | "Hack Track" | "Train Track" | "Workshop" | "Break" | "Un-Conference";
+type ScheduleTrack =
+  | "General"
+  | "Hack Track"
+  | "Train Track"
+  | "Workshop"
+  | "Break"
+  | "Un-Conference";
 
 type ScheduleItem = {
   event: string;
@@ -13,6 +19,11 @@ type ScheduleItem = {
 
 type ScheduleStackItem = ScheduleItem & {
   weight?: number;
+};
+
+type ScheduleParallel = {
+  parallel: true;
+  items: ScheduleStackItem[];
 };
 
 type ScheduleBlock =
@@ -25,7 +36,7 @@ type ScheduleBlock =
       time: string;
       columns: 2;
       left: ScheduleItem;
-      right: ScheduleItem | ScheduleStackItem[];
+      right: ScheduleItem | ScheduleStackItem[] | ScheduleParallel;
     };
 
 type TimeRange = {
@@ -69,53 +80,102 @@ const schedule = {
     {
       time: "09:00 - 09:30",
       columns: 1,
-      item: { event: "Registration & Soft Opening", track: "General", location: "Main Hall" },
+      item: {
+        event: "Registration & Soft Opening",
+        track: "General",
+        location: "Main Hall",
+      },
     },
     {
       time: "09:30 - 12:00",
       columns: 2,
-      left: { event: "Brainstorming + Last Project Submissions", track: "Hack Track", location: "Hack Room" },
+      left: {
+        event: "Brainstorming + Last Project Submissions",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
       right: [
-        { event: "Introductions: Traintrack", track: "Train Track", location: "Train Room" },
-        { event: "Break (15min)", track: "Break", location: "Train Room", weight: 0.35 },
-        { event: "Introductions: HowTo Brainhack (10+5 min talks)", track: "Hack Track", location: "Train Room" },
+        {
+          event: "Introductions: Traintrack",
+          track: "Train Track",
+          location: "Bld C salle 41, 44 & Bld E salle 39",
+        },
+        {
+          event: "Break (15min)",
+          track: "Break",
+          location: "Bld C salle 41, 44 & Bld E salle 39",
+          weight: 0.35,
+        },
+        {
+          event: "Introductions: HowTo Brainhack (10+5 min talks)",
+          track: "Hack Track",
+          location: "Bld C salle 41, 44 & Bld E salle 39",
+        },
       ],
     },
     {
       time: "12:00 - 13:00",
       columns: 1,
-      item: { event: "Lunch", track: "General", location: "Cafeteria" },
+      item: { event: "Lunch", track: "General", location: "Atrium" },
     },
     {
       time: "13:00 - 14:30",
       columns: 1,
-      item: { event: "Project Pitches", track: "General", location: "Main Stage" },
+      item: {
+        event: "Project Pitches",
+        track: "General",
+        location: "Main Stage",
+      },
     },
     {
       time: "14:30 - 16:30",
       columns: 1,
-      item: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
+      item: {
+        event: "Working On Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
     },
     {
       time: "16:30 - 17:00",
       columns: 1,
-      item: { event: "Coffee Break", track: "General", location: "Common Area" },
+      item: {
+        event: "Coffee Break",
+        track: "General",
+        location: "Common Area",
+      },
     },
     {
       time: "17:00 - 18:30",
       columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "People's Choice Session on demand", track: "Train Track", location: "Train Room" },
+      left: {
+        event: "Working On Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
+      right: {
+        event: "People's Choice Session on demand",
+        track: "Train Track",
+        location: "Bld C salle 41, 44 & Bld E salle 39",
+      },
     },
     {
       time: "18:30 - 19:00",
       columns: 1,
-      item: { event: "Un-conference", track: "Un-Conference", location: "Main Stage" },
+      item: {
+        event: "Un-conference",
+        track: "Un-Conference",
+        location: "Amphitheatre",
+      },
     },
     {
       time: "19:00 - 19:30",
       columns: 1,
-      item: { event: "Building Almost Closes", track: "General", location: "Venue" },
+      item: {
+        event: "Building Almost Closes",
+        track: "General",
+        location: "Venue",
+      },
     },
     {
       time: "19:30 - 20:00",
@@ -132,48 +192,108 @@ const schedule = {
     {
       time: "09:00 - 12:00",
       columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: [
-        { event: "Deeper Traintracks (1h max)", track: "Train Track", location: "Train Room" },
-        { event: "Break", track: "Break", location: "Train Room", weight: 0.35 },
-        { event: "Toolboxes, Datasets, Workflows, ...", track: "Train Track", location: "Train Room" },
-      ],
+      left: {
+        event: "Working On Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
+      right: {
+        parallel: true,
+        items: [
+          {
+            event:
+              "9:30 Cortical Labs · 10:15 NiiVue · ☕ Break · 11:00 CLABtoolkit · 11:45 Neurodesk",
+            track: "Train Track",
+            location: "Amphitheatre",
+          },
+          {
+            event: "9:15 BIDS Manager · ☕ Break · 11:00 MEEGQC",
+            track: "Train Track",
+            location: "Bld C salle 41",
+          },
+          {
+            event: "11:00 BIDS in plain language",
+            track: "Train Track",
+            location: "Bld E salle 39",
+          },
+        ],
+      },
     },
     {
       time: "12:00 - 13:30",
       columns: 1,
-      item: { event: "Lunch", track: "General", location: "Cafeteria" },
+      item: { event: "Lunch", track: "General", location: "Atrium" },
     },
     {
       time: "13:30 - 16:30",
       columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
+      left: {
+        event: "Working On Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
       right: [
-        { event: "NSW / BIDS / hMRI / EEG101", track: "Workshop", location: "Workshop Room" },
-        { event: "Break", track: "Break", location: "Train Room", weight: 0.35 },
-        { event: "NSW / BIDS / hMRI / EEG101", track: "Workshop", location: "Workshop Room" },
+        {
+          event: "NSW / BIDS / hMRI / EEG101",
+          track: "Workshop",
+          location:
+            "NSW: Amphitheatre · EEG101: Bld C salle 41+44 · hMRI: Bld C salle 36 · BIDS: Bld E salle 39",
+        },
+        {
+          event: "Break",
+          track: "Break",
+          location: "",
+          weight: 0.35,
+        },
+        {
+          event: "NSW / BIDS / hMRI / EEG101",
+          track: "Workshop",
+          location:
+            "NSW: Amphitheatre · EEG101: Bld C salle 41+44 · hMRI: Bld C salle 36 · BIDS: Bld E salle 39",
+        },
       ],
     },
     {
       time: "16:30 - 17:00",
       columns: 1,
-      item: { event: "Coffee Break", track: "General", location: "Common Area" },
+      item: {
+        event: "Coffee Break",
+        track: "General",
+        location: "Common Area",
+      },
     },
     {
       time: "17:00 - 18:30",
       columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
-      right: { event: "NSW / BIDS / hMRI / EEG101", track: "Workshop", location: "Workshop Room" },
+      left: {
+        event: "Working On Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
+      right: {
+        event: "NSW / BIDS / hMRI / EEG101",
+        track: "Workshop",
+        location:
+          "NSW: Amphitheatre · EEG101: Bld C salle 41+44 · hMRI: Bld C salle 36 · BIDS: Bld E salle 39",
+      },
     },
     {
       time: "18:30 - 19:00",
       columns: 1,
-      item: { event: "Un-conference", track: "Un-Conference", location: "Main Stage" },
+      item: {
+        event: "Un-conference",
+        track: "Un-Conference",
+        location: "Amphitheatre",
+      },
     },
     {
       time: "19:00 - 19:30",
       columns: 1,
-      item: { event: "Building Almost Closes", track: "General", location: "Venue" },
+      item: {
+        event: "Building Almost Closes",
+        track: "General",
+        location: "Venue",
+      },
     },
     {
       time: "19:30 - 20:00",
@@ -190,47 +310,88 @@ const schedule = {
     {
       time: "09:00 - 12:00",
       columns: 2,
-      left: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
+      left: {
+        event: "Working On Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
       right: [
-        { event: "NSW / EEG101", track: "Workshop", location: "Workshop Room" },
-        { event: "Break", track: "Break", location: "Workshop Room", weight: 0.35 },
-        { event: "NSW / EEG101", track: "Workshop", location: "Workshop Room" },
-      ]
+        {
+          event: "NSW / EEG101",
+          track: "Workshop",
+          location: "NSW: Amphitheatre · EEG101: Bld C salle 41+44",
+        },
+        {
+          event: "Break",
+          track: "Break",
+          location: "",
+          weight: 0.35,
+        },
+        {
+          event: "NSW / EEG101",
+          track: "Workshop",
+          location: "NSW: Amphitheatre · EEG101: Bld C salle 41+44",
+        },
+      ],
     },
     {
       time: "12:00 - 13:30",
       columns: 1,
-      item: { event: "Lunch", track: "General", location: "Cafeteria" },
+      item: { event: "Lunch", track: "General", location: "Atrium" },
     },
     {
       time: "13:30 - 14:00",
       columns: 1,
-      item: { event: "Un-conference", track: "Un-Conference", location: "Main Stage" },
+      item: {
+        event: "Un-conference",
+        track: "Un-Conference",
+        location: "Amphitheatre",
+      },
     },
     {
       time: "14:00 - 16:30",
       columns: 1,
-      item: { event: "Working On Projects", track: "Hack Track", location: "Hack Room" },
+      item: {
+        event: "Working On Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
     },
     {
       time: "16:30 - 17:00",
       columns: 1,
-      item: { event: "Coffee Break", track: "General", location: "Common Area" },
+      item: {
+        event: "Coffee Break",
+        track: "General",
+        location: "Common Area",
+      },
     },
     {
       time: "17:00 - 17:30",
       columns: 1,
-      item: { event: "Wrapping Up Projects", track: "Hack Track", location: "Hack Room" },
+      item: {
+        event: "Wrapping Up Projects",
+        track: "Hack Track",
+        location: "Bld B salle 33, 34, 37",
+      },
     },
     {
       time: "17:30 - 19:00",
       columns: 1,
-      item: { event: "Closing Ceremony + Project Updates", track: "General", location: "Main Stage" },
+      item: {
+        event: "Closing Ceremony + Project Updates",
+        track: "General",
+        location: "Main Stage",
+      },
     },
     {
       time: "19:00 - 19:30",
       columns: 1,
-      item: { event: "Building Almost Closes", track: "General", location: "Venue" },
+      item: {
+        event: "Building Almost Closes",
+        track: "General",
+        location: "Venue",
+      },
     },
     {
       time: "19:30 - 20:00",
@@ -258,7 +419,13 @@ const getTrackCardClass = (track: ScheduleTrack) => {
   return "bg-card border-border";
 };
 
-function TimelineEvent({ item, compact = false }: { item: ScheduleItem; compact?: boolean }) {
+function TimelineEvent({
+  item,
+  compact = false,
+}: {
+  item: ScheduleItem;
+  compact?: boolean;
+}) {
   if (item.track === "Break") {
     return (
       <div
@@ -269,7 +436,9 @@ function TimelineEvent({ item, compact = false }: { item: ScheduleItem; compact?
         >
           {item.track}
         </span>
-        <h4 className="min-w-0 truncate text-xs font-semibold leading-none">{item.event}</h4>
+        <h4 className="min-w-0 truncate text-xs font-semibold leading-none">
+          {item.event}
+        </h4>
       </div>
     );
   }
@@ -285,21 +454,84 @@ function TimelineEvent({ item, compact = false }: { item: ScheduleItem; compact?
           {item.track}
         </span>
         {compact ? (
-          <h4 className="min-w-0 truncate text-xs font-semibold leading-tight">{item.event}</h4>
+          <div className="min-w-0">
+            <h4 className="text-xs font-semibold leading-tight break-words">
+              {item.event}
+            </h4>
+            {item.location ? (
+              <p className="text-[9px] text-muted-foreground leading-tight break-words">
+                {item.location}
+              </p>
+            ) : null}
+          </div>
         ) : null}
       </div>
 
-      {!compact ? <h4 className="font-semibold text-sm leading-tight">{item.event}</h4> : null}
+      {!compact ? (
+        <>
+          <h4 className="font-semibold text-sm leading-tight">{item.event}</h4>
+          {item.location ? (
+            <p className="mt-1 text-[10px] text-muted-foreground leading-tight">
+              {item.location}
+            </p>
+          ) : null}
+        </>
+      ) : null}
     </div>
   );
 }
 
-function TimelineEventStack({ items, compact = false }: { items: ScheduleStackItem[]; compact?: boolean }) {
+function TimelineEventStack({
+  items,
+  compact = false,
+}: {
+  items: ScheduleStackItem[];
+  compact?: boolean;
+}) {
+  const forceCompact = compact || items.length >= 3;
   return (
     <div className="flex h-full flex-col gap-1">
       {items.map((item, index) => (
-        <div key={`${item.event}-${index}`} className="min-h-0" style={{ flex: `${item.weight ?? 1} 1 0` }}>
-          <TimelineEvent item={item} compact={compact} />
+        <div
+          key={`${item.event}-${index}`}
+          className="min-h-0"
+          style={{ flex: `${item.weight ?? 1} 1 0` }}
+        >
+          <TimelineEvent item={item} compact={forceCompact} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function isParallel(
+  value: ScheduleItem | ScheduleStackItem[] | ScheduleParallel,
+): value is ScheduleParallel {
+  return !Array.isArray(value) && "parallel" in value;
+}
+
+function TimelineEventParallel({ items }: { items: ScheduleStackItem[] }) {
+  return (
+    <div className="flex h-full gap-1">
+      {items.map((item, index) => (
+        <div key={`${item.event}-${index}`} className="min-w-0 flex-1">
+          <div
+            className={`h-full rounded-md border overflow-hidden p-2 ${getTrackCardClass(item.track)}`}
+          >
+            <span
+              className={`inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider mb-1 ${getTrackBadgeClass(item.track)}`}
+            >
+              {item.track}
+            </span>
+            <h4 className="text-[11px] font-semibold leading-tight">
+              {item.event}
+            </h4>
+            {item.location ? (
+              <p className="mt-1 text-[10px] text-muted-foreground leading-tight">
+                {item.location}
+              </p>
+            ) : null}
+          </div>
         </div>
       ))}
     </div>
@@ -308,10 +540,15 @@ function TimelineEventStack({ items, compact = false }: { items: ScheduleStackIt
 
 export function ScheduleSection() {
   return (
-    <section id="schedule" className="py-24 px-6 border-t border-border bg-background">
+    <section
+      id="schedule"
+      className="py-24 px-6 border-t border-border bg-background"
+    >
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Schedule</h2>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+            Schedule
+          </h2>
         </div>
 
         <div className="mb-10 rounded-2xl border border-border bg-card p-6">
@@ -322,10 +559,13 @@ export function ScheduleSection() {
                 Registration closed on June 1
               </div>
               <p className="text-sm text-muted-foreground">
-                Registration for BrainHack is now closed, and we have now reached our maximum on-site capacity.
-                At this point, we are unable to accept any additional registrations, waitlist requests,
-                or walk-in attendees. This capacity limit is based on building restrictions and event logistics.
-                Thank you for your interest in BrainHack. We appreciate your understanding and hope to see you at a future event.
+                Registration for BrainHack is now closed, and we have now
+                reached our maximum on-site capacity. At this point, we are
+                unable to accept any additional registrations, waitlist
+                requests, or walk-in attendees. This capacity limit is based on
+                building restrictions and event logistics. Thank you for your
+                interest in BrainHack. We appreciate your understanding and hope
+                to see you at a future event.
               </p>
             </div>
             <button
@@ -340,17 +580,20 @@ export function ScheduleSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
           <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/5 p-5">
-            <h3 className="font-semibold text-base mb-1">Train Track / Workshop</h3>
+            <h3 className="font-semibold text-base mb-1">
+              Train Track / Workshop
+            </h3>
             <p className="text-sm text-muted-foreground">
-              Train Track starts with onboarding and deeper topic sessions for practical project
-              participation. Workshop-specific details are provided later in the Workshop Guide.
+              Train Track starts with onboarding and deeper topic sessions for
+              practical project participation. Workshop-specific details are
+              provided later in the Workshop Guide.
             </p>
           </div>
           <div className="rounded-xl border border-blue-500/40 bg-blue-500/5 p-5">
             <h3 className="font-semibold text-base mb-1">Hack Track</h3>
             <p className="text-sm text-muted-foreground">
-              Project-first track with extended build blocks, unconference slots, and final closing
-              updates.
+              Project-first track with extended build blocks, unconference
+              slots, and final closing updates.
             </p>
           </div>
         </div>
@@ -377,13 +620,21 @@ export function ScheduleSection() {
                   range: parseTimeRange(block.time),
                 }));
 
-                const dayStart = Math.min(...parsed.map(({ range }) => range.start));
-                const dayEnd = Math.max(...parsed.map(({ range }) => range.end));
+                const dayStart = Math.min(
+                  ...parsed.map(({ range }) => range.start),
+                );
+                const dayEnd = Math.max(
+                  ...parsed.map(({ range }) => range.end),
+                );
                 const totalHeight = toPixels(dayEnd - dayStart);
                 const timelineHeight = totalHeight + TIMELINE_BOTTOM_PADDING_PX;
 
                 const markers: number[] = [];
-                for (let minute = dayStart; minute <= dayEnd; minute += SLOT_MINUTES) {
+                for (
+                  let minute = dayStart;
+                  minute <= dayEnd;
+                  minute += SLOT_MINUTES
+                ) {
                   markers.push(minute);
                 }
 
@@ -399,7 +650,10 @@ export function ScheduleSection() {
                     </div>
 
                     <div className="grid grid-cols-[82px_minmax(0,1fr)]">
-                      <div className="relative border-r border-border bg-muted/20" style={{ height: timelineHeight }}>
+                      <div
+                        className="relative border-r border-border bg-muted/20"
+                        style={{ height: timelineHeight }}
+                      >
                         {markers.map((minute) => {
                           const top = toPixels(minute - dayStart);
                           return (
@@ -417,7 +671,10 @@ export function ScheduleSection() {
                         })}
                       </div>
 
-                      <div className="relative overflow-hidden" style={{ height: timelineHeight }}>
+                      <div
+                        className="relative overflow-hidden"
+                        style={{ height: timelineHeight }}
+                      >
                         {markers.map((minute) => {
                           const top = toPixels(minute - dayStart);
                           const hourLine = minute % 60 === 0;
@@ -434,15 +691,25 @@ export function ScheduleSection() {
 
                         {parsed.map(({ block, index, range }) => {
                           const top = toPixels(range.start - dayStart);
-                          const height = Math.max(toPixels(range.end - range.start), SLOT_HEIGHT_PX * 0.9);
+                          const height = Math.max(
+                            toPixels(range.end - range.start),
+                            SLOT_HEIGHT_PX * 0.9,
+                          );
 
                           const durationMinutes = range.end - range.start;
                           const compact = durationMinutes <= SLOT_MINUTES;
 
                           if (block.columns === 1) {
                             return (
-                              <div key={index} className="absolute px-2" style={{ top, height, left: 0, right: 0 }}>
-                                <TimelineEvent item={block.item} compact={compact} />
+                              <div
+                                key={index}
+                                className="absolute px-2"
+                                style={{ top, height, left: 0, right: 0 }}
+                              >
+                                <TimelineEvent
+                                  item={block.item}
+                                  compact={compact}
+                                />
                               </div>
                             );
                           }
@@ -458,7 +725,10 @@ export function ScheduleSection() {
                                   width: "50%",
                                 }}
                               >
-                                <TimelineEvent item={block.left} compact={compact} />
+                                <TimelineEvent
+                                  item={block.left}
+                                  compact={compact}
+                                />
                               </div>
                               <div
                                 key={`${index}-right`}
@@ -470,10 +740,20 @@ export function ScheduleSection() {
                                   width: "50%",
                                 }}
                               >
-                                {Array.isArray(block.right) ? (
-                                  <TimelineEventStack items={block.right} compact={compact} />
+                                {isParallel(block.right) ? (
+                                  <TimelineEventParallel
+                                    items={block.right.items}
+                                  />
+                                ) : Array.isArray(block.right) ? (
+                                  <TimelineEventStack
+                                    items={block.right}
+                                    compact={compact}
+                                  />
                                 ) : (
-                                  <TimelineEvent item={block.right} compact={compact} />
+                                  <TimelineEvent
+                                    item={block.right as ScheduleItem}
+                                    compact={compact}
+                                  />
                                 )}
                               </div>
                             </div>
@@ -490,10 +770,13 @@ export function ScheduleSection() {
 
         <div className="mt-16 p-8 rounded-2xl bg-muted/50 border border-border flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-2xl">
-            <h4 className="text-xl font-semibold mb-1">Detailed Program (PDF)</h4>
+            <h4 className="text-xl font-semibold mb-1">
+              Detailed Program (PDF)
+            </h4>
             <p className="text-muted-foreground">
-              More detailed session information will be provided in the official PDF booklet. Please
-              refer to the PDF for finalized room assignments, workshop notes, and practical details.
+              More detailed session information will be provided in the official
+              PDF booklet. Please refer to the PDF for finalized room
+              assignments, workshop notes, and practical details.
             </p>
           </div>
           <div className="flex gap-3">
